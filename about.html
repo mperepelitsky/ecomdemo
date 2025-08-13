@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Us - ClothingHub</title>
+
+    <!-- DataLayer initialization -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+      <nav class="container mx-auto px-4">
+        <div class="flex items-center justify-between h-16">
+          <div class="flex-shrink-0">
+            <a href="index.html" class="text-2xl font-bold text-gray-800"
+              >ClothingHub</a
+            >
+          </div>
+
+          <!-- Desktop Navigation -->
+          <div class="hidden md:block">
+            <div class="ml-10 flex items-baseline space-x-4">
+              <a
+                href="index.html"
+                class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                >Home</a
+              >
+              <div class="relative group">
+                <a
+                  href="categories.html"
+                  class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                  >Categories</a
+                >
+                <div
+                  class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200"
+                >
+                  <div class="py-1">
+                    <a
+                      href="categories.html?category=men"
+                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >Men's Clothing</a
+                    >
+                    <a
+                      href="categories.html?category=women"
+                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >Women's Clothing</a
+                    >
+                    <a
+                      href="categories.html?category=accessories"
+                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >Accessories</a
+                    >
+                  </div>
+                </div>
+              </div>
+              <a
+                href="about.html"
+                class="text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                >About</a
+              >
+            </div>
+          </div>
+
+          <!-- Icons -->
+          <div class="flex items-center space-x-4">
+            <a
+              href="login.html"
+              class="text-gray-700 hover:text-blue-600"
+              id="userIcon"
+            >
+              <i class="fas fa-user text-lg"></i>
+            </a>
+            <button
+              class="relative text-gray-700 hover:text-blue-600"
+              id="cartIcon"
+            >
+              <i class="fas fa-shopping-cart text-lg"></i>
+              <span
+                class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
+                id="cartCount"
+                >0</span
+              >
+            </button>
+          </div>
+
+          <!-- Mobile menu button -->
+          <div class="md:hidden">
+            <button
+              class="text-gray-700 hover:text-blue-600"
+              id="mobileMenuButton"
+            >
+              <i class="fas fa-bars text-lg"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div class="md:hidden" id="mobileMenu" style="display: none">
+          <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-50">
+            <a
+              href="index.html"
+              class="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium"
+              >Home</a
+            >
+            <a
+              href="categories.html"
+              class="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium"
+              >Categories</a
+            >
+            <a
+              href="about.html"
+              class="text-blue-600 block px-3 py-2 rounded-md text-base font-medium"
+              >About</a
+            >
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-blue-600 text-white py-20">
+      <div class="container mx-auto px-4 text-center">
+        <h1 class="text-5xl font-bold mb-6">About ClothingHub</h1>
+        <p class="text-xl max-w-3xl mx-auto">
+          We're passionate about bringing you the latest in fashion trends while
+          maintaining quality, affordability, and style.
+        </p>
+      </div>
+    </section>
+
+    <!-- Our Story -->
+    <section class="py-16">
+      <div class="container mx-auto px-4">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 class="text-3xl font-bold mb-6 text-gray-800">Our Story</h2>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+              Founded in 2020, ClothingHub began as a small online boutique with
+              a simple mission: to make high-quality, stylish clothing
+              accessible to everyone. What started as a passion project has
+              grown into a trusted destination for fashion enthusiasts
+              worldwide.
+            </p>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+              We believe that great style shouldn't come at a great cost. That's
+              why we work directly with manufacturers to bring you premium
+              clothing at fair prices, without compromising on quality or
+              ethical practices.
+            </p>
+            <p class="text-gray-700 leading-relaxed">
+              Today, ClothingHub serves thousands of customers globally,
+              offering everything from everyday essentials to statement pieces
+              that help you express your unique style.
+            </p>
+          </div>
+          <div>
+            <img
+              src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=500&h=400&fit=crop"
+              alt="Our Story"
+              class="rounded-lg shadow-lg w-full"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Our Values -->
+    <section class="py-16 bg-gray-100">
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">
+          Our Values
+        </h2>
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="text-center">
+            <div
+              class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4"
+            >
+              <i class="fas fa-heart text-white text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-4 text-gray-800">
+              Quality First
+            </h3>
+            <p class="text-gray-700">
+              We carefully select each item in our collection, ensuring that
+              every piece meets our high standards for quality and
+              craftsmanship.
+            </p>
+          </div>
+          <div class="text-center">
+            <div
+              class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4"
+            >
+              <i class="fas fa-leaf text-white text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-4 text-gray-800">
+              Sustainability
+            </h3>
+            <p class="text-gray-700">
+              We're committed to sustainable fashion practices, working with
+              eco-friendly materials and ethical manufacturers whenever
+              possible.
+            </p>
+          </div>
+          <div class="text-center">
+            <div
+              class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4"
+            >
+              <i class="fas fa-users text-white text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-4 text-gray-800">
+              Customer First
+            </h3>
+            <p class="text-gray-700">
+              Your satisfaction is our priority. We provide exceptional customer
+              service and stand behind every product we sell.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="py-16">
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">
+          Meet Our Team
+        </h2>
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="text-center">
+            <img
+              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face"
+              alt="Sarah Johnson"
+              class="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
+            />
+            <h3 class="text-xl font-semibold mb-2 text-gray-800">
+              Sarah Johnson
+            </h3>
+            <p class="text-blue-600 mb-2">Founder & CEO</p>
+            <p class="text-gray-700 text-sm">
+              Fashion enthusiast with 10+ years in retail and e-commerce.
+            </p>
+          </div>
+          <div class="text-center">
+            <img
+              src="https://images.unsplash.com/photo-1494790108755-2616b9232a52?w=200&h=200&fit=crop&crop=face"
+              alt="Emily Chen"
+              class="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
+            />
+            <h3 class="text-xl font-semibold mb-2 text-gray-800">Emily Chen</h3>
+            <p class="text-blue-600 mb-2">Head of Design</p>
+            <p class="text-gray-700 text-sm">
+              Creative director with expertise in trend forecasting and product
+              development.
+            </p>
+          </div>
+          <div class="text-center">
+            <img
+              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face"
+              alt="Michael Rodriguez"
+              class="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
+            />
+            <h3 class="text-xl font-semibold mb-2 text-gray-800">
+              Michael Rodriguez
+            </h3>
+            <p class="text-blue-600 mb-2">Operations Manager</p>
+            <p class="text-gray-700 text-sm">
+              Logistics expert ensuring smooth operations and timely deliveries.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Info -->
+    <section class="py-16 bg-gray-100">
+      <div class="container mx-auto px-4">
+        <div class="grid md:grid-cols-2 gap-12">
+          <div>
+            <h2 class="text-3xl font-bold mb-6 text-gray-800">Get in Touch</h2>
+            <p class="text-gray-700 mb-6">
+              Have questions or feedback? We'd love to hear from you!
+            </p>
+            <div class="space-y-4">
+              <div class="flex items-center">
+                <i class="fas fa-envelope text-blue-600 w-6"></i>
+                <span class="ml-3 text-gray-700">contact@clothinghub.com</span>
+              </div>
+              <div class="flex items-center">
+                <i class="fas fa-phone text-blue-600 w-6"></i>
+                <span class="ml-3 text-gray-700">1-800-CLOTHING</span>
+              </div>
+              <div class="flex items-center">
+                <i class="fas fa-map-marker-alt text-blue-600 w-6"></i>
+                <span class="ml-3 text-gray-700"
+                  >123 Fashion Ave, New York, NY 10001</span
+                >
+              </div>
+            </div>
+            <div class="mt-8">
+              <h3 class="text-xl font-semibold mb-4 text-gray-800">
+                Follow Us
+              </h3>
+              <div class="flex space-x-4">
+                <a href="#" class="text-blue-600 hover:text-blue-800 text-2xl"
+                  ><i class="fab fa-facebook"></i
+                ></a>
+                <a href="#" class="text-blue-600 hover:text-blue-800 text-2xl"
+                  ><i class="fab fa-twitter"></i
+                ></a>
+                <a href="#" class="text-blue-600 hover:text-blue-800 text-2xl"
+                  ><i class="fab fa-instagram"></i
+                ></a>
+                <a href="#" class="text-blue-600 hover:text-blue-800 text-2xl"
+                  ><i class="fab fa-linkedin"></i
+                ></a>
+              </div>
+            </div>
+          </div>
+          <div>
+            <form class="bg-white p-6 rounded-lg shadow-lg">
+              <h3 class="text-xl font-semibold mb-4 text-gray-800">
+                Send us a Message
+              </h3>
+              <div class="space-y-4">
+                <div>
+                  <label
+                    for="name"
+                    class="block text-sm font-medium text-gray-700 mb-1"
+                    >Name</label
+                  >
+                  <input
+                    type="text"
+                    id="name"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label
+                    for="email"
+                    class="block text-sm font-medium text-gray-700 mb-1"
+                    >Email</label
+                  >
+                  <input
+                    type="email"
+                    id="email"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+                  <label
+                    for="message"
+                    class="block text-sm font-medium text-gray-700 mb-1"
+                    >Message</label
+                  >
+                  <textarea
+                    id="message"
+                    rows="4"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  ></textarea>
+                </div>
+                <button
+                  type="submit"
+                  class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300"
+                >
+                  Send Message
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+      <div class="container mx-auto px-4">
+        <div class="grid md:grid-cols-4 gap-8">
+          <div>
+            <h3 class="text-xl font-bold mb-4">ClothingHub</h3>
+            <p class="text-gray-300">
+              Your one-stop destination for fashion and style.
+            </p>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="index.html"
+                  class="text-gray-300 hover:text-white transition duration-300"
+                  >Home</a
+                >
+              </li>
+              <li>
+                <a
+                  href="categories.html"
+                  class="text-gray-300 hover:text-white transition duration-300"
+                  >Categories</a
+                >
+              </li>
+              <li>
+                <a
+                  href="about.html"
+                  class="text-gray-300 hover:text-white transition duration-300"
+                  >About</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Categories</h4>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="categories.html?category=men"
+                  class="text-gray-300 hover:text-white transition duration-300"
+                  >Men's Clothing</a
+                >
+              </li>
+              <li>
+                <a
+                  href="categories.html?category=women"
+                  class="text-gray-300 hover:text-white transition duration-300"
+                  >Women's Clothing</a
+                >
+              </li>
+              <li>
+                <a
+                  href="categories.html?category=accessories"
+                  class="text-gray-300 hover:text-white transition duration-300"
+                  >Accessories</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Follow Us</h4>
+            <div class="flex space-x-4">
+              <a
+                href="#"
+                class="text-gray-300 hover:text-white text-xl transition duration-300"
+                ><i class="fab fa-facebook"></i
+              ></a>
+              <a
+                href="#"
+                class="text-gray-300 hover:text-white text-xl transition duration-300"
+                ><i class="fab fa-twitter"></i
+              ></a>
+              <a
+                href="#"
+                class="text-gray-300 hover:text-white text-xl transition duration-300"
+                ><i class="fab fa-instagram"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+          <p class="text-gray-300">
+            &copy; 2025 ClothingHub. All rights reserved. This is a demo site.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Shopping Cart Modal -->
+    <div
+      id="cartModal"
+      class="fixed inset-0 bg-black bg-opacity-50 hidden z-50"
+    >
+      <div class="flex items-center justify-center min-h-screen px-4">
+        <div
+          class="bg-white rounded-lg max-w-md w-full max-h-96 overflow-hidden"
+        >
+          <div class="flex items-center justify-between p-4 border-b">
+            <h2 class="text-xl font-semibold">Shopping Cart</h2>
+            <button class="text-gray-500 hover:text-gray-700" id="closeCart">
+              <i class="fas fa-times text-xl"></i>
+            </button>
+          </div>
+          <div class="p-4 max-h-64 overflow-y-auto">
+            <div id="cartItems"></div>
+            <div class="border-t pt-4 mt-4">
+              <h3 class="text-lg font-semibold">
+                Total: $<span id="cartTotal">0.00</span>
+              </h3>
+            </div>
+            <div class="flex space-x-2 mt-4">
+              <button
+                class="flex-1 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-300"
+                id="clearCart"
+              >
+                Clear Cart
+              </button>
+              <button
+                class="flex-1 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-300"
+                id="checkout"
+              >
+                Checkout
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/datalayer.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - ClothingHub</title>
+
+    <!-- DataLayer initialization -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+      <nav class="container mx-auto px-4">
+        <div class="flex items-center justify-between h-16">
+          <div class="flex-shrink-0">
+            <a href="index.html" class="text-2xl font-bold text-gray-800"
+              >ClothingHub</a
+            >
+          </div>
+
+          <!-- Desktop Navigation -->
+          <div class="hidden md:block">
+            <div class="ml-10 flex items-baseline space-x-4">
+              <a
+                href="index.html"
+                class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                >Home</a
+              >
+              <div class="relative group">
+                <a
+                  href="categories.html"
+                  class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                  >Categories</a
+                >
+                <div
+                  class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200"
+                >
+                  <div class="py-1">
+                    <a
+                      href="categories.html?category=men"
+                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >Men's Clothing</a
+                    >
+                    <a
+                      href="categories.html?category=women"
+                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >Women's Clothing</a
+                    >
+                    <a
+                      href="categories.html?category=accessories"
+                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >Accessories</a
+                    >
+                  </div>
+                </div>
+              </div>
+              <a
+                href="about.html"
+                class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                >About</a
+              >
+            </div>
+          </div>
+
+          <!-- Icons -->
+          <div class="flex items-center space-x-4">
+            <a href="login.html" class="text-blue-600" id="userIcon">
+              <i class="fas fa-user text-lg"></i>
+            </a>
+            <button
+              class="relative text-gray-700 hover:text-blue-600"
+              id="cartIcon"
+            >
+              <i class="fas fa-shopping-cart text-lg"></i>
+              <span
+                class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
+                id="cartCount"
+                >0</span
+              >
+            </button>
+          </div>
+
+          <!-- Mobile menu button -->
+          <div class="md:hidden">
+            <button
+              class="text-gray-700 hover:text-blue-600"
+              id="mobileMenuButton"
+            >
+              <i class="fas fa-bars text-lg"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div class="md:hidden" id="mobileMenu" style="display: none">
+          <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-50">
+            <a
+              href="index.html"
+              class="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium"
+              >Home</a
+            >
+            <a
+              href="categories.html"
+              class="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium"
+              >Categories</a
+            >
+            <a
+              href="about.html"
+              class="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium"
+              >About</a
+            >
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Login Section -->
+    <section class="min-h-screen flex items-center justify-center py-12 px-4">
+      <div class="max-w-md w-full space-y-8">
+        <!-- Login Form -->
+        <div id="loginForm" class="bg-white rounded-lg shadow-lg p-8">
+          <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-gray-800">Welcome Back</h2>
+            <p class="text-gray-600 mt-2">Sign in to your account</p>
+          </div>
+
+          <form class="space-y-6">
+            <div>
+              <label
+                for="loginEmail"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Email Address</label
+              >
+              <input
+                type="email"
+                id="loginEmail"
+                required
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+
+            <div>
+              <label
+                for="loginPassword"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Password</label
+              >
+              <input
+                type="password"
+                id="loginPassword"
+                required
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+
+            <div class="flex items-center justify-between">
+              <div class="flex items-center">
+                <input
+                  type="checkbox"
+                  id="rememberMe"
+                  class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                />
+                <label for="rememberMe" class="ml-2 block text-sm text-gray-700"
+                  >Remember me</label
+                >
+              </div>
+              <a href="#" class="text-sm text-blue-600 hover:text-blue-800"
+                >Forgot password?</a
+              >
+            </div>
+
+            <button
+              type="submit"
+              id="loginBtn"
+              class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300 font-semibold"
+            >
+              Sign In
+            </button>
+          </form>
+
+          <div class="mt-6 text-center">
+            <p class="text-gray-600">Don't have an account?</p>
+            <button
+              id="showRegister"
+              class="text-blue-600 hover:text-blue-800 font-semibold"
+            >
+              Create Account
+            </button>
+          </div>
+        </div>
+
+        <!-- Register Form -->
+        <div id="registerForm" class="bg-white rounded-lg shadow-lg p-8 hidden">
+          <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-gray-800">Create Account</h2>
+            <p class="text-gray-600 mt-2">Join ClothingHub today</p>
+          </div>
+
+          <form class="space-y-6">
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label
+                  for="firstName"
+                  class="block text-sm font-medium text-gray-700 mb-1"
+                  >First Name</label
+                >
+                <input
+                  type="text"
+                  id="firstName"
+                  required
+                  class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label
+                  for="lastName"
+                  class="block text-sm font-medium text-gray-700 mb-1"
+                  >Last Name</label
+                >
+                <input
+                  type="text"
+                  id="lastName"
+                  required
+                  class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label
+                for="registerEmail"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Email Address</label
+              >
+              <input
+                type="email"
+                id="registerEmail"
+                required
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+
+            <div>
+              <label
+                for="registerPassword"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Password</label
+              >
+              <input
+                type="password"
+                id="registerPassword"
+                required
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+              <p class="text-xs text-gray-500 mt-1">
+                Must be at least 8 characters long
+              </p>
+            </div>
+
+            <div>
+              <label
+                for="confirmPassword"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Confirm Password</label
+              >
+              <input
+                type="password"
+                id="confirmPassword"
+                required
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+
+            <div class="flex items-center">
+              <input
+                type="checkbox"
+                id="agreeTerms"
+                required
+                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              />
+              <label for="agreeTerms" class="ml-2 block text-sm text-gray-700">
+                I agree to the
+                <a href="#" class="text-blue-600 hover:text-blue-800"
+                  >Terms and Conditions</a
+                >
+              </label>
+            </div>
+
+            <button
+              type="submit"
+              id="registerBtn"
+              class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300 font-semibold"
+            >
+              Create Account
+            </button>
+          </form>
+
+          <div class="mt-6 text-center">
+            <p class="text-gray-600">Already have an account?</p>
+            <button
+              id="showLogin"
+              class="text-blue-600 hover:text-blue-800 font-semibold"
+            >
+              Sign In
+            </button>
+          </div>
+        </div>
+
+        <!-- User Dashboard (shown after login) -->
+        <div
+          id="userDashboard"
+          class="bg-white rounded-lg shadow-lg p-8 hidden"
+        >
+          <div class="text-center mb-8">
+            <div
+              class="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4"
+            >
+              <i class="fas fa-user text-white text-2xl"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-800">Welcome back!</h2>
+            <p class="text-gray-600" id="userWelcome">Hello, User!</p>
+          </div>
+
+          <div class="space-y-4">
+            <div class="bg-gray-50 p-4 rounded-lg">
+              <h3 class="font-semibold text-gray-800 mb-2">
+                Account Information
+              </h3>
+              <div class="text-sm text-gray-600 space-y-1">
+                <p>
+                  <span class="font-medium">Name:</span>
+                  <span id="displayName">-</span>
+                </p>
+                <p>
+                  <span class="font-medium">Email:</span>
+                  <span id="displayEmail">-</span>
+                </p>
+                <p>
+                  <span class="font-medium">Member since:</span>
+                  <span id="memberSince">-</span>
+                </p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <button
+                class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300"
+              >
+                <i class="fas fa-shopping-bag mr-2"></i>Order History
+              </button>
+              <button
+                class="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition duration-300"
+              >
+                <i class="fas fa-heart mr-2"></i>Wishlist
+              </button>
+            </div>
+
+            <button
+              id="logoutBtn"
+              class="w-full bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition duration-300"
+            >
+              <i class="fas fa-sign-out-alt mr-2"></i>Logout
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+      <div class="container mx-auto px-4">
+        <div class="grid md:grid-cols-4 gap-8">
+          <div>
+            <h3 class="text-xl font-bold mb-4">ClothingHub</h3>
+            <p class="text-gray-300">
+              Your one-stop destination for fashion and style.
+            </p>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="index.html"
+                  class="text-gray-300 hover:text-white transition duration-300"
+                  >Home</a
+                >
+              </li>
+              <li>
+                <a
+                  href="categories.html"
+                  class="text-gray-300 hover:text-white transition duration-300"
+                  >Categories</a
+                >
+              </li>
+              <li>
+                <a
+                  href="about.html"
+                  class="text-gray-300 hover:text-white transition duration-300"
+                  >About</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Categories</h4>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="categories.html?category=men"
+                  class="text-gray-300 hover:text-white transition duration-300"
+                  >Men's Clothing</a
+                >
+              </li>
+              <li>
+                <a
+                  href="categories.html?category=women"
+                  class="text-gray-300 hover:text-white transition duration-300"
+                  >Women's Clothing</a
+                >
+              </li>
+              <li>
+                <a
+                  href="categories.html?category=accessories"
+                  class="text-gray-300 hover:text-white transition duration-300"
+                  >Accessories</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Follow Us</h4>
+            <div class="flex space-x-4">
+              <a
+                href="#"
+                class="text-gray-300 hover:text-white text-xl transition duration-300"
+                ><i class="fab fa-facebook"></i
+              ></a>
+              <a
+                href="#"
+                class="text-gray-300 hover:text-white text-xl transition duration-300"
+                ><i class="fab fa-twitter"></i
+              ></a>
+              <a
+                href="#"
+                class="text-gray-300 hover:text-white text-xl transition duration-300"
+                ><i class="fab fa-instagram"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+          <p class="text-gray-300">
+            &copy; 2025 ClothingHub. All rights reserved. This is a demo site.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Shopping Cart Modal -->
+    <div
+      id="cartModal"
+      class="fixed inset-0 bg-black bg-opacity-50 hidden z-50"
+    >
+      <div class="flex items-center justify-center min-h-screen px-4">
+        <div
+          class="bg-white rounded-lg max-w-md w-full max-h-96 overflow-hidden"
+        >
+          <div class="flex items-center justify-between p-4 border-b">
+            <h2 class="text-xl font-semibold">Shopping Cart</h2>
+            <button class="text-gray-500 hover:text-gray-700" id="closeCart">
+              <i class="fas fa-times text-xl"></i>
+            </button>
+          </div>
+          <div class="p-4 max-h-64 overflow-y-auto">
+            <div id="cartItems"></div>
+            <div class="border-t pt-4 mt-4">
+              <h3 class="text-lg font-semibold">
+                Total: $<span id="cartTotal">0.00</span>
+              </h3>
+            </div>
+            <div class="flex space-x-2 mt-4">
+              <button
+                class="flex-1 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-300"
+                id="clearCart"
+              >
+                Clear Cart
+              </button>
+              <button
+                class="flex-1 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-300"
+                id="checkout"
+              >
+                Checkout
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/datalayer.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/auth.js"></script>
+  </body>
+</html>

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product - ClothingHub</title>
+
+    <!-- DataLayer initialization -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+      <nav class="container mx-auto px-4">
+        <div class="flex items-center justify-between h-16">
+          <div class="flex-shrink-0">
+            <a href="index.html" class="text-2xl font-bold text-gray-800"
+              >ClothingHub</a
+            >
+          </div>
+
+          <!-- Desktop Navigation -->
+          <div class="hidden md:block">
+            <div class="ml-10 flex items-baseline space-x-4">
+              <a
+                href="index.html"
+                class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                >Home</a
+              >
+              <div class="relative group">
+                <a
+                  href="categories.html"
+                  class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                  >Categories</a
+                >
+                <div
+                  class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200"
+                >
+                  <div class="py-1">
+                    <a
+                      href="categories.html?category=men"
+                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >Men's Clothing</a
+                    >
+                    <a
+                      href="categories.html?category=women"
+                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >Women's Clothing</a
+                    >
+                    <a
+                      href="categories.html?category=accessories"
+                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >Accessories</a
+                    >
+                  </div>
+                </div>
+              </div>
+              <a
+                href="about.html"
+                class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                >About</a
+              >
+            </div>
+          </div>
+
+          <!-- Icons -->
+          <div class="flex items-center space-x-4">
+            <a
+              href="login.html"
+              class="text-gray-700 hover:text-blue-600"
+              id="userIcon"
+            >
+              <i class="fas fa-user text-lg"></i>
+            </a>
+            <button
+              class="relative text-gray-700 hover:text-blue-600"
+              id="cartIcon"
+            >
+              <i class="fas fa-shopping-cart text-lg"></i>
+              <span
+                class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
+                id="cartCount"
+                >0</span
+              >
+            </button>
+          </div>
+
+          <!-- Mobile menu button -->
+          <div class="md:hidden">
+            <button
+              class="text-gray-700 hover:text-blue-600"
+              id="mobileMenuButton"
+            >
+              <i class="fas fa-bars text-lg"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div class="md:hidden" id="mobileMenu" style="display: none">
+          <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-50">
+            <a
+              href="index.html"
+              class="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium"
+              >Home</a
+            >
+            <a
+              href="categories.html"
+              class="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium"
+              >Categories</a
+            >
+            <a
+              href="about.html"
+              class="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium"
+              >About</a
+            >
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Breadcrumb -->
+    <nav class="bg-white border-b py-3">
+      <div class="container mx-auto px-4">
+        <div class="flex items-center space-x-2 text-sm">
+          <a href="index.html" class="text-blue-600 hover:text-blue-800"
+            >Home</a
+          >
+          <span class="text-gray-500">/</span>
+          <a href="categories.html" class="text-blue-600 hover:text-blue-800"
+            >Categories</a
+          >
+          <span class="text-gray-500">/</span>
+          <span class="text-gray-700" id="breadcrumbCategory">Category</span>
+          <span class="text-gray-500">/</span>
+          <span class="text-gray-500" id="breadcrumbProduct">Product</span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Product Details -->
+    <section class="py-12">
+      <div class="container mx-auto px-4">
+        <div class="grid md:grid-cols-2 gap-12">
+          <!-- Product Image -->
+          <div class="space-y-4">
+            <div class="bg-white rounded-lg overflow-hidden shadow-lg">
+              <img
+                id="productImage"
+                src=""
+                alt="Product Image"
+                class="w-full h-96 object-cover"
+              />
+            </div>
+            <div class="grid grid-cols-4 gap-2" id="productThumbnails">
+              <!-- Thumbnails will be populated here -->
+            </div>
+          </div>
+
+          <!-- Product Info -->
+          <div class="space-y-6">
+            <div>
+              <h1
+                id="productName"
+                class="text-3xl font-bold text-gray-800 mb-2"
+              >
+                Product Name
+              </h1>
+              <div class="flex items-center space-x-2 mb-4">
+                <div class="flex text-yellow-400">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                </div>
+                <span class="text-gray-600">(4.5)</span>
+                <span class="text-gray-500">|</span>
+                <span class="text-gray-600">24 reviews</span>
+              </div>
+              <p class="text-3xl font-bold text-blue-600" id="productPrice">
+                $0.00
+              </p>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-semibold mb-2">Description</h3>
+              <p id="productDescription" class="text-gray-700 leading-relaxed">
+                Product description will be loaded here.
+              </p>
+            </div>
+
+            <!-- Size Selection -->
+            <div id="sizeSection" class="space-y-3">
+              <h3 class="text-lg font-semibold">Size</h3>
+              <div class="flex flex-wrap gap-2" id="sizeOptions">
+                <!-- Size options will be populated here -->
+              </div>
+            </div>
+
+            <!-- Color Selection -->
+            <div id="colorSection" class="space-y-3">
+              <h3 class="text-lg font-semibold">Color</h3>
+              <div class="flex flex-wrap gap-2" id="colorOptions">
+                <!-- Color options will be populated here -->
+              </div>
+            </div>
+
+            <!-- Quantity -->
+            <div class="space-y-3">
+              <h3 class="text-lg font-semibold">Quantity</h3>
+              <div class="flex items-center space-x-3">
+                <button
+                  id="decreaseQty"
+                  class="w-10 h-10 bg-gray-200 rounded-lg flex items-center justify-center hover:bg-gray-300 transition duration-300"
+                >
+                  <i class="fas fa-minus"></i>
+                </button>
+                <span
+                  id="quantity"
+                  class="text-lg font-semibold w-8 text-center"
+                  >1</span
+                >
+                <button
+                  id="increaseQty"
+                  class="w-10 h-10 bg-gray-200 rounded-lg flex items-center justify-center hover:bg-gray-300 transition duration-300"
+                >
+                  <i class="fas fa-plus"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Add to Cart -->
+            <div class="space-y-4">
+              <button
+                id="addToCartBtn"
+                class="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition duration-300"
+              >
+                <i class="fas fa-shopping-cart mr-2"></i>
+                Add to Cart
+              </button>
+              <button
+                class="w-full bg-gray-800 text-white py-3 px-6 rounded-lg font-semibold hover:bg-gray-900 transition duration-300"
+              >
+                <i class="fas fa-heart mr-2"></i>
+                Add to Wishlist
+              </button>
+            </div>
+
+            <!-- Product Features -->
+            <div class="border-t pt-6">
+              <h3 class="text-lg font-semibold mb-4">Features</h3>
+              <ul class="space-y-2 text-gray-700">
+                <li class="flex items-center">
+                  <i class="fas fa-check text-green-500 mr-2"></i> Premium
+                  quality materials
+                </li>
+                <li class="flex items-center">
+                  <i class="fas fa-check text-green-500 mr-2"></i> Machine
+                  washable
+                </li>
+                <li class="flex items-center">
+                  <i class="fas fa-check text-green-500 mr-2"></i> 30-day return
+                  policy
+                </li>
+                <li class="flex items-center">
+                  <i class="fas fa-check text-green-500 mr-2"></i> Free shipping
+                  on orders over $50
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Related Products -->
+        <div class="mt-16">
+          <h2 class="text-2xl font-bold text-center mb-8">Related Products</h2>
+          <div
+            class="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
+            id="relatedProducts"
+          >
+            <!-- Related products will be loaded here -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+      <div class="container mx-auto px-4">
+        <div class="grid md:grid-cols-4 gap-8">
+          <div>
+            <h3 class="text-xl font-bold mb-4">ClothingHub</h3>
+            <p class="text-gray-300">
+              Your one-stop destination for fashion and style.
+            </p>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="index.html"
+                  class="text-gray-300 hover:text-white transition duration-300"
+                  >Home</a
+                >
+              </li>
+              <li>
+                <a
+                  href="categories.html"
+                  class="text-gray-300 hover:text-white transition duration-300"
+                  >Categories</a
+                >
+              </li>
+              <li>
+                <a
+                  href="about.html"
+                  class="text-gray-300 hover:text-white transition duration-300"
+                  >About</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Categories</h4>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="categories.html?category=men"
+                  class="text-gray-300 hover:text-white transition duration-300"
+                  >Men's Clothing</a
+                >
+              </li>
+              <li>
+                <a
+                  href="categories.html?category=women"
+                  class="text-gray-300 hover:text-white transition duration-300"
+                  >Women's Clothing</a
+                >
+              </li>
+              <li>
+                <a
+                  href="categories.html?category=accessories"
+                  class="text-gray-300 hover:text-white transition duration-300"
+                  >Accessories</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Follow Us</h4>
+            <div class="flex space-x-4">
+              <a
+                href="#"
+                class="text-gray-300 hover:text-white text-xl transition duration-300"
+                ><i class="fab fa-facebook"></i
+              ></a>
+              <a
+                href="#"
+                class="text-gray-300 hover:text-white text-xl transition duration-300"
+                ><i class="fab fa-twitter"></i
+              ></a>
+              <a
+                href="#"
+                class="text-gray-300 hover:text-white text-xl transition duration-300"
+                ><i class="fab fa-instagram"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+          <p class="text-gray-300">
+            &copy; 2025 ClothingHub. All rights reserved. This is a demo site.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Shopping Cart Modal -->
+    <div
+      id="cartModal"
+      class="fixed inset-0 bg-black bg-opacity-50 hidden z-50"
+    >
+      <div class="flex items-center justify-center min-h-screen px-4">
+        <div
+          class="bg-white rounded-lg max-w-md w-full max-h-96 overflow-hidden"
+        >
+          <div class="flex items-center justify-between p-4 border-b">
+            <h2 class="text-xl font-semibold">Shopping Cart</h2>
+            <button class="text-gray-500 hover:text-gray-700" id="closeCart">
+              <i class="fas fa-times text-xl"></i>
+            </button>
+          </div>
+          <div class="p-4 max-h-64 overflow-y-auto">
+            <div id="cartItems"></div>
+            <div class="border-t pt-4 mt-4">
+              <h3 class="text-lg font-semibold">
+                Total: $<span id="cartTotal">0.00</span>
+              </h3>
+            </div>
+            <div class="flex space-x-2 mt-4">
+              <button
+                class="flex-1 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-300"
+                id="clearCart"
+              >
+                Clear Cart
+              </button>
+              <button
+                class="flex-1 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-300"
+                id="checkout"
+              >
+                Checkout
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/products.js"></script>
+    <script src="js/datalayer.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/product.js"></script>
+  </body>
+</html>
