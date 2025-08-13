@@ -323,17 +323,9 @@ class ShoppingCart {
 
     // Track begin checkout event
     const total = this.getTotal();
-    dataLayerManager.trackBeginCheckout({
-      currency: "USD",
-      value: total,
-      items: this.items.map((item) => ({
-        item_id: item.id.toString(),
-        item_name: item.name,
-        item_category: item.category,
-        price: item.price,
-        quantity: item.quantity,
-      })),
-    });
+    if (typeof dataLayerManager !== "undefined") {
+      dataLayerManager.trackBeginCheckout(this.items, total);
+    }
 
     // Simulate payment process
     const itemCount = this.getItemCount();
@@ -348,19 +340,13 @@ class ShoppingCart {
     // Simulate API call delay
     setTimeout(() => {
       // Track purchase in DataLayer
-      dataLayerManager.trackPurchase({
-        transaction_id: `ORDER_${Date.now()}`,
-        value: total,
-        currency: "USD",
-        items: this.items.map((item) => ({
-          item_id: item.id.toString(),
-          item_name: item.name,
-          item_category: item.category,
-          price: item.price,
-          quantity: item.quantity,
-        })),
-        user_id: currentUser.email,
-      });
+      if (typeof dataLayerManager !== "undefined") {
+        dataLayerManager.trackPurchase(
+          this.items,
+          total,
+          `ORDER_${Date.now()}`
+        );
+      }
 
       // Simulate successful payment
       alert(
