@@ -120,7 +120,7 @@ class ShoppingCart {
   // Get cart total
   getTotal() {
     return this.items.reduce((total, item) => {
-      return total + item.price * item.quantity;
+      return Number(total + item.price * item.quantity);
     }, 0);
   }
 
