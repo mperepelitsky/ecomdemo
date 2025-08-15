@@ -89,6 +89,7 @@ class AuthSystem {
       email: email.toLowerCase().trim(),
       memberSince: new Date().toISOString(),
       loginHistory: [],
+      orders: [], // Initialize with empty orders array
     };
 
     console.log("Creating new user:", newUser);
@@ -278,6 +279,61 @@ class AuthSystem {
       if (userDashboard) {
         userDashboard.classList.remove("hidden");
         this.updateDashboard();
+      }
+      // Render order History (with toggle)
+      const user = AuthSystem.getCurrentUser();
+      const orders = user.orders || [];
+      const orderHistoryDiv = document.getElementById("orderHistory");
+      const orderHistorySection = document.getElementById(
+        "orderHistorySection"
+      );
+      if (orderHistoryDiv) {
+        orderHistoryDiv.innerHTML =
+          orders.length === 0
+            ? "<p>No orders found.</p>"
+            : orders
+                .map(
+                  (order) => `
+          <div class="border-b py-2">
+              <p class="font-semibold">Order ID: ${order.id}</p>
+              <p>Total: ${ProductUtils.formatPrice(order.total)}</p>
+              <p>Date: ${new Date(order.date).toLocaleDateString()}</p>
+              <h4 class="text-sm font-semibold mt-2">Items:</h4>
+              <ul class="list-disc pl-5">
+                  ${order.items
+                    .map((item) => {
+                      const product = ProductUtils.getProductById(
+                        item.productId
+                      );
+                      return `
+                        <li>
+                          ${product ? product.name : item.productId}
+                          (x${item.quantity})
+                          ${item.size ? `- Size: ${item.size}` : ""}
+                          ${item.color ? `- Color: ${item.color}` : ""}
+                          - ${ProductUtils.formatPrice(
+                            item.price * item.quantity
+                          )}
+                        </li>
+                      `;
+                    })
+                    .join("")}
+              </ul>
+          </div>
+      `
+                )
+                .join("");
+      }
+      // Add toggle logic for order history
+      const toggleBtn = document.getElementById("toggleOrderHistoryBtn");
+      if (toggleBtn && orderHistorySection) {
+        toggleBtn.onclick = function () {
+          if (orderHistorySection.style.display === "none") {
+            orderHistorySection.style.display = "block";
+          } else {
+            orderHistorySection.style.display = "none";
+          }
+        };
       }
     } else {
       // Show login form

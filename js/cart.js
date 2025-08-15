@@ -357,6 +357,24 @@ class ShoppingCart {
         }.`
       );
 
+      // After successful payment , before clearing cart save order
+      const order = {
+        id: `ORDER_${Date.now()}`,
+        items: [...this.items],
+        total: Number(total),
+        date: new Date().toISOString(),
+      };
+      let users = JSON.parse(localStorage.getItem("clothingHubUsers")) || [];
+      let userIndex = users.findIndex((u) => u.email === currentUser.email);
+      if (userIndex > -1) {
+        users[userIndex].orders = users[userIndex].orders || [];
+        users[userIndex].orders.push(order);
+        localStorage.setItem("clothingHubUsers", JSON.stringify(users));
+        // Also update the current user in clothingHubUser
+        const updatedUser = { ...users[userIndex] };
+        localStorage.setItem("clothingHubUser", JSON.stringify(updatedUser));
+      }
+
       // Clear cart after successful checkout
       this.clearCart();
       this.hideCartModal();
