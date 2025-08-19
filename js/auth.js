@@ -10,20 +10,20 @@ class AuthSystem {
 
   // Get current user from localStorage
   static getCurrentUser() {
-    const saved = localStorage.getItem("clothingHubUser");
+    const saved = localStorage.getItem("chezMikePHubUser");
     return saved ? JSON.parse(saved) : null;
   }
 
   // Save user to localStorage
   saveUser(user) {
-    localStorage.setItem("clothingHubUser", JSON.stringify(user));
+    localStorage.setItem("chezMikePHubUser", JSON.stringify(user));
     this.currentUser = user;
     this.updateUIForCurrentUser();
   }
 
   // Remove user from localStorage
   logout() {
-    localStorage.removeItem("clothingHubUser");
+    localStorage.removeItem("chezMikePHubUser");
     this.currentUser = null;
     this.updateUIForCurrentUser();
 
@@ -104,11 +104,14 @@ class AuthSystem {
     if (typeof dataLayerManager !== "undefined") {
       dataLayerManager.trackUserRegistration({
         user_id: newUser.email,
-        method: "email",
+        signUpMethod: "email",
+        firstName: newUser.firstName,
+        lastName: newUser.lastName,
+        memberSince: newUser.memberSince,
       });
     }
 
-    this.showMessage(`Welcome to ClothingHub, ${firstName}!`, "success");
+    this.showMessage(`Welcome to chezMikeP, ${firstName}!`, "success");
     console.log("User registration successful");
     return true;
   }
@@ -149,7 +152,10 @@ class AuthSystem {
       if (typeof dataLayerManager !== "undefined") {
         dataLayerManager.trackUserRegistration({
           user_id: newUser.email,
-          method: "email",
+          signUpMethod: "email",
+          firstName: newUser.firstName,
+          lastName: newUser.lastName,
+          memberSince: newUser.memberSince,
         });
       }
     } else {
@@ -173,7 +179,7 @@ class AuthSystem {
 
   // Get all users from localStorage (demo database)
   getAllUsers() {
-    const saved = localStorage.getItem("clothingHubUsers");
+    const saved = localStorage.getItem("chezMikePHubUsers");
     return saved ? JSON.parse(saved) : [];
   }
 
@@ -181,7 +187,7 @@ class AuthSystem {
   addUserToDatabase(user) {
     const users = this.getAllUsers();
     users.push(user);
-    localStorage.setItem("clothingHubUsers", JSON.stringify(users));
+    localStorage.setItem("chezMikePHubUsers", JSON.stringify(users));
   }
 
   // Update user in localStorage database
@@ -190,7 +196,7 @@ class AuthSystem {
     const index = users.findIndex((u) => u.id === updatedUser.id);
     if (index > -1) {
       users[index] = updatedUser;
-      localStorage.setItem("clothingHubUsers", JSON.stringify(users));
+      localStorage.setItem("chezMikePHubUsers", JSON.stringify(users));
     }
   }
 

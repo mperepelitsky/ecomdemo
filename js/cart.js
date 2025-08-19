@@ -364,15 +364,15 @@ class ShoppingCart {
         total: Number(total),
         date: new Date().toISOString(),
       };
-      let users = JSON.parse(localStorage.getItem("clothingHubUsers")) || [];
+      let users = JSON.parse(localStorage.getItem("chezMikePHubUsers")) || [];
       let userIndex = users.findIndex((u) => u.email === currentUser.email);
       if (userIndex > -1) {
         users[userIndex].orders = users[userIndex].orders || [];
         users[userIndex].orders.push(order);
-        localStorage.setItem("clothingHubUsers", JSON.stringify(users));
-        // Also update the current user in clothingHubUser
+        localStorage.setItem("chezMikePHubUsers", JSON.stringify(users));
+        // Also update the current user in chezMikePHubUser
         const updatedUser = { ...users[userIndex] };
-        localStorage.setItem("clothingHubUser", JSON.stringify(updatedUser));
+        localStorage.setItem("chezMikePHubUser", JSON.stringify(updatedUser));
       }
 
       // Clear cart after successful checkout
