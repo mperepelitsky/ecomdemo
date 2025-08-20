@@ -34,6 +34,18 @@ function loadCategoryProducts() {
 
   displayProducts(products);
   updateActiveFilter(category);
+
+  // DataLayer: Track category or search view
+  if (typeof dataLayerManager !== "undefined") {
+    if (searchQuery) {
+      dataLayerManager.trackSearch(searchQuery, products.length);
+      dataLayerManager.trackViewItemList(products, `Search: ${searchQuery}`);
+    } else {
+      const listName =
+        category === "all" ? "All Products" : getCategoryDisplayName(category);
+      dataLayerManager.trackViewItemList(products, listName);
+    }
+  }
 }
 
 // Display products in grid

@@ -375,6 +375,11 @@ class ShoppingCart {
         localStorage.setItem("chezMikePHubUser", JSON.stringify(updatedUser));
       }
 
+      // DataLayer: Track purchase (demo only, no real payment)
+      if (typeof dataLayerManager !== "undefined") {
+        dataLayerManager.trackPurchase(order.items, order.total, order.id);
+      }
+
       // Clear cart after successful checkout
       this.clearCart();
       this.hideCartModal();

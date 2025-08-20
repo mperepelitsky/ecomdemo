@@ -35,6 +35,11 @@ function loadProductDetails() {
   displayProductDetails();
   loadRelatedProducts();
   updateBreadcrumb();
+
+  // DataLayer: Track product detail view
+  if (typeof dataLayerManager !== "undefined" && currentProduct) {
+    dataLayerManager.trackViewItem(currentProduct);
+  }
 }
 
 // Display product details
