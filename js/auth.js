@@ -128,42 +128,23 @@ class AuthSystem {
       return false;
     }
 
-    // For demo purposes, we'll accept any valid email/password combination
-    // In a real app, this would verify against a secure backend
     const existingUsers = this.getAllUsers();
     const user = existingUsers.find(
       (u) => u.email === email.toLowerCase().trim()
     );
 
     if (!user) {
-      // For demo, create user if they don't exist
-      const newUser = {
-        id: Date.now(),
-        firstName: "Demo",
-        lastName: "User",
-        email: email.toLowerCase().trim(),
-        memberSince: new Date().toISOString(),
-        loginHistory: [],
-      };
-      this.addUserToDatabase(newUser);
-      this.saveUser(newUser);
-
-      // Track user registration in DataLayer
-      if (typeof dataLayerManager !== "undefined") {
-        dataLayerManager.trackUserRegistration({
-          user_id: newUser.email,
-          signUpMethod: "email",
-          firstName: newUser.firstName,
-          lastName: newUser.lastName,
-          memberSince: newUser.memberSince,
-        });
-      }
-    } else {
-      // Update login history
-      user.loginHistory.push(new Date().toISOString());
-      this.updateUserInDatabase(user);
-      this.saveUser(user);
+      this.showMessage(
+        "No account found with this email. Please register first.",
+        "error"
+      );
+      return false;
     }
+
+    // Optionally, check password here if you store it
+    user.loginHistory.push(new Date().toISOString());
+    this.updateUserInDatabase(user);
+    this.saveUser(user);
 
     // Track user login in DataLayer
     if (typeof dataLayerManager !== "undefined") {
@@ -174,6 +155,23 @@ class AuthSystem {
     }
 
     this.showMessage("Login successful!", "success");
+    return true;
+  }
+
+  // Helper for testing: switch to a user by email (simulate login without password)
+  switchUserByEmail(email) {
+    const existingUsers = this.getAllUsers();
+    const user = existingUsers.find(
+      (u) => u.email === email.toLowerCase().trim()
+    );
+    if (!user) {
+      this.showMessage("No user found with this email.", "error");
+      return false;
+    }
+    user.loginHistory.push(new Date().toISOString());
+    this.updateUserInDatabase(user);
+    this.saveUser(user);
+    this.showMessage(`Switched to user: ${user.email}`, "success");
     return true;
   }
 
