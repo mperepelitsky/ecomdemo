@@ -339,15 +339,6 @@ class ShoppingCart {
 
     // Simulate API call delay
     setTimeout(() => {
-      // Track purchase in DataLayer
-      if (typeof dataLayerManager !== "undefined") {
-        dataLayerManager.trackPurchase(
-          this.items,
-          total,
-          `ORDER_${Date.now()}`
-        );
-      }
-
       // Simulate successful payment
       alert(
         `Payment successful! Total: ${ProductUtils.formatPrice(
