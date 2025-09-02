@@ -186,20 +186,22 @@ class DataLayerManager {
     });
   }
 
-  // Track product list view (flat structure, one event per product)
+  // Track product list view (consolidated into one event)
   trackViewItemList(products, listName) {
-    products.forEach((product) => {
-      this.push({
-        event: "view_item_list",
-        ecommerce: {
-          currency: "USD",
-          product_id: product.id.toString(),
-          product_name: product.name,
-          product_category: this.getCategoryName(product.category),
-          price: product.price,
-          item_list_name: listName,
-        },
-      });
+    const items = products.map((product, index) => ({
+      item_id: product.id.toString(),
+      item_name: product.name,
+      item_category: this.getCategoryName(product.category),
+      price: product.price,
+      index: index + 1, // Position of the item in the list
+    }));
+
+    this.push({
+      event: "view_item_list",
+      ecommerce: {
+        item_list_name: listName,
+        items: items,
+      },
     });
   }
 
