@@ -105,7 +105,7 @@ const products = [
     category: "women",
     price: 95.99,
     image:
-      "https://images.unsplash.com//photo-1610288311735-39b7facbd095?w=300&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1610288311735-39b7facbd095?w=300&h=400&fit=crop",
     images: [
       "https://images.unsplash.com/photo-1610288311735-39b7facbd095?w=300&h=400&fit=crop",
     ],
@@ -137,7 +137,7 @@ const products = [
     category: "accessories",
     price: 39.99,
     image:
-      "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=400&fit=crop".
+      "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=400&fit=crop",
     images: [
       "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=400&fit=crop",
     ],
@@ -266,7 +266,7 @@ const products = [
     category: "accessories",
     price: 45.99,
     image:
-      "https://images.unsplash.com/photo-1566534335938-05f1f2949435w=300&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1566534335938-05f1f2949435?w=300&h=400&fit=crop",
     images: [
       "https://images.unsplash.com/photo-1566534335938-05f1f2949435?w=300&h=400&fit=crop",
     ],
