@@ -121,9 +121,9 @@ const products = [
     category: "accessories",
     price: 149.99,
     image:
-      "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1600071177478-88758260617d?w=300&h=400&fit=crop",
     images: [
-      "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1600071177478-88758260617d?w=300&h=400&fit=crop",
     ],
     description:
       "Classic leather watch with stainless steel case. Water-resistant and perfect for everyday wear.",
@@ -137,7 +137,7 @@ const products = [
     category: "accessories",
     price: 39.99,
     image:
-      "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=400&fit=crop".
     images: [
       "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=400&fit=crop",
     ],
@@ -169,9 +169,10 @@ const products = [
     category: "men",
     price: 45.99,
     image:
-      "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=300&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1603252109612-24fa03d145c8?w=300&h=400&fit=crop",
+
     images: [
-      "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=300&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1603252109612-24fa03d145c8?w=300&h=400&fit=crop",
     ],
     description:
       "Classic formal shirt perfect for office wear. Made from premium cotton with slim fit.",
@@ -249,9 +250,9 @@ const products = [
     category: "men",
     price: 35.99,
     image:
-      "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=300&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1614533836002-5728f1963983?w=300&h=400&fit=crop",
     images: [
-      "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=300&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1614533836002-5728f1963983?w=300&h=400&fit=crop",
     ],
     description:
       "Classic polo shirt perfect for casual or semi-formal occasions. Made from premium cotton pique.",
@@ -265,9 +266,9 @@ const products = [
     category: "accessories",
     price: 45.99,
     image:
-      "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?w=300&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1566534335938-05f1f2949435w=300&h=400&fit=crop",
     images: [
-      "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?w=300&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1566534335938-05f1f2949435?w=300&h=400&fit=crop",
     ],
     description:
       "Luxurious silk scarf with elegant pattern. Perfect accessory for adding sophistication to any outfit.",
@@ -281,9 +282,9 @@ const products = [
     category: "women",
     price: 129.99,
     image:
-      "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=300&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1654684198148-c192c37f9b0d?w=300&h=400&fit=crop",
     images: [
-      "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=300&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1654684198148-c192c37f9b0d?w=300&h=400&fit=crop",
     ],
     description:
       "Stylish ankle boots perfect for fall and winter. Features comfortable heel and premium leather construction.",
