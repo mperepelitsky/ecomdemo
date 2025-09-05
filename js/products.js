@@ -105,9 +105,9 @@ const products = [
     category: "women",
     price: 95.99,
     image:
-      "https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?w=300&h=400&fit=crop",
+      "https://images.unsplash.com//photo-1610288311735-39b7facbd095?w=300&h=400&fit=crop",
     images: [
-      "https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?w=300&h=400&fit=crop",
+      "https://images.unsplash.com/photo-1610288311735-39b7facbd095?w=300&h=400&fit=crop",
     ],
     description:
       "Cozy wool cardigan perfect for layering. Features button closure and ribbed trim.",
