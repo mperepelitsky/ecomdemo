@@ -186,6 +186,12 @@ function selectSize(size) {
     selectedBtn.classList.remove("border-gray-300");
     selectedBtn.classList.add("border-blue-500", "bg-blue-50");
   }
+
+  // Set selected size attribute for personalization resolver
+  const sizeOptions = document.getElementById("sizeOptions");
+  if (sizeOptions) {
+    sizeOptions.setAttribute("data-selected-size", size);
+  }
 }
 
 // Select color
@@ -202,6 +208,12 @@ function selectColor(color) {
   if (selectedBtn) {
     selectedBtn.classList.remove("border-gray-300");
     selectedBtn.classList.add("border-blue-500", "bg-blue-50");
+  }
+
+  // Set selected color attribute for personalization resolver
+  const colorOptions = document.getElementById("colorOptions");
+  if (colorOptions) {
+    colorOptions.setAttribute("data-selected-color", color);
   }
 }
 
