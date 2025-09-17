@@ -3,6 +3,10 @@
 ## Project Name and Short Description
 **ecomdemo**  
 A shopping site featuring a variety of products, designed for testing and demonstration of Digital Commerce (DC) and other SDK events.
+Simulates category views, product views, add to cart and purchase. 
+Ability to log in and simple account page view and manipulation.
+All values and items is tracked in the datalayer for now. 
+**Potential future improvements to have a more realistic and more complex features.
 
 ## Installation Instructions
 1. Clone the repository:  
