@@ -1,23 +1,15 @@
 {
   "records": [
     {
-      "developerName": "consentLog",
       "masterLabel": "Consent",
+      "developerName": "consentLog",
       "category": "Engagement",
-      "availabilityStatus": "INUSE",
       "externalDataTranFields": [
         {
           "masterLabel": "category",
           "dataType": "Text",
           "developerName": "category",
           "isDataRequired": true,
-          "isCurrencyIsoCode": false
-        },
-        {
-          "masterLabel": "consentVersion",
-          "dataType": "Text",
-          "developerName": "consentVersion",
-          "isDataRequired": false,
           "isCurrencyIsoCode": false
         },
         {
@@ -77,13 +69,7 @@
           "primaryIndexOrder": 1,
           "isCurrencyIsoCode": false
         }
-      ],
-      "fieldCount": 10,
-      "availabilityStatusLabel": {
-        "label": "In Use",
-        "rawValue": "INUSE"
-      },
-      "streamingAppLabel": "ecomdemo_MP"
+      ]
     }
   ]
 }

@@ -1,14 +1,35 @@
 {
   "records": [
     {
-      "masterLabel": "Cart",
-      "developerName": "cart",
+      "masterLabel": "Cart Item",
+      "developerName": "cartItem",
       "category": "Engagement",
       "availabilityStatus": "INUSE",
       "externalDataTranFields": [
         {
           "masterLabel": "category",
           "developerName": "category",
+          "dataType": "Text",
+          "isDataRequired": true,
+          "isCurrencyIsoCode": false
+        },
+        {
+          "masterLabel": "cartEventId",
+          "developerName": "cartEventId",
+          "dataType": "Text",
+          "isDataRequired": true,
+          "isCurrencyIsoCode": false
+        },
+        {
+          "masterLabel": "catalogObjectType",
+          "developerName": "catalogObjectType",
+          "dataType": "Text",
+          "isDataRequired": true,
+          "isCurrencyIsoCode": false
+        },
+        {
+          "masterLabel": "catalogObjectId",
+          "developerName": "catalogObjectId",
           "dataType": "Text",
           "isDataRequired": true,
           "isCurrencyIsoCode": false
@@ -57,13 +78,6 @@
           "isCurrencyIsoCode": false
         },
         {
-          "masterLabel": "pageView",
-          "developerName": "pageView",
-          "dataType": "Number",
-          "isDataRequired": false,
-          "isCurrencyIsoCode": false
-        },
-        {
           "masterLabel": "sourceChannel",
           "developerName": "sourceChannel",
           "dataType": "Text",
@@ -99,23 +113,58 @@
           "isCurrencyIsoCode": false
         },
         {
-          "masterLabel": "totalValue",
-          "developerName": "totalValue",
+          "masterLabel": "quantity",
+          "developerName": "quantity",
           "dataType": "Number",
           "isDataRequired": false,
           "isCurrencyIsoCode": false
         },
         {
-          "masterLabel": "couponCode",
-          "developerName": "couponCode",
+          "masterLabel": "price",
+          "developerName": "price",
+          "dataType": "Number",
+          "isDataRequired": false,
+          "isCurrencyIsoCode": false
+        },
+        {
+          "masterLabel": "currency",
+          "developerName": "currency",
           "dataType": "Text",
           "isDataRequired": false,
           "isCurrencyIsoCode": false
         },
         {
-          "masterLabel": "cartItemCount",
-          "developerName": "cartItemCount",
+          "masterLabel": "attributeBrand",
+          "developerName": "attributeBrand",
+          "dataType": "Text",
+          "isDataRequired": false,
+          "isCurrencyIsoCode": false
+        },
+        {
+          "masterLabel": "attributeCategory",
+          "developerName": "attributeCategory",
+          "dataType": "Text",
+          "isDataRequired": false,
+          "isCurrencyIsoCode": false
+        },
+        {
+          "masterLabel": "attributeName",
+          "developerName": "attributeName",
+          "dataType": "Text",
+          "isDataRequired": false,
+          "isCurrencyIsoCode": false
+        },
+        {
+          "masterLabel": "attributePrice",
+          "developerName": "attributePrice",
           "dataType": "Number",
+          "isDataRequired": false,
+          "isCurrencyIsoCode": false
+        },
+        {
+          "masterLabel": "attributeSku",
+          "developerName": "attributeSku",
+          "dataType": "Text",
           "isDataRequired": false,
           "isCurrencyIsoCode": false
         }

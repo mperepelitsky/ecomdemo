@@ -1,8 +1,8 @@
 {
   "records": [
     {
-      "masterLabel": "Cart",
-      "developerName": "cart",
+      "masterLabel": "Website Engagement",
+      "developerName": "websiteEngagement",
       "category": "Engagement",
       "availabilityStatus": "INUSE",
       "externalDataTranFields": [
@@ -64,6 +64,41 @@
           "isCurrencyIsoCode": false
         },
         {
+          "masterLabel": "siteLanguage",
+          "developerName": "siteLanguage",
+          "dataType": "Text",
+          "isDataRequired": false,
+          "isCurrencyIsoCode": false
+        },
+        {
+          "masterLabel": "siteRegion",
+          "developerName": "siteRegion",
+          "dataType": "Text",
+          "isDataRequired": false,
+          "isCurrencyIsoCode": false
+        },
+        {
+          "masterLabel": "siteName",
+          "developerName": "siteName",
+          "dataType": "Text",
+          "isDataRequired": false,
+          "isCurrencyIsoCode": false
+        },
+        {
+          "masterLabel": "siteType",
+          "developerName": "siteType",
+          "dataType": "Text",
+          "isDataRequired": false,
+          "isCurrencyIsoCode": false
+        },
+        {
+          "masterLabel": "siteUrlPath",
+          "developerName": "siteUrlPath",
+          "dataType": "Text",
+          "isDataRequired": false,
+          "isCurrencyIsoCode": false
+        },
+        {
           "masterLabel": "sourceChannel",
           "developerName": "sourceChannel",
           "dataType": "Text",
@@ -99,23 +134,9 @@
           "isCurrencyIsoCode": false
         },
         {
-          "masterLabel": "totalValue",
-          "developerName": "totalValue",
-          "dataType": "Number",
-          "isDataRequired": false,
-          "isCurrencyIsoCode": false
-        },
-        {
-          "masterLabel": "couponCode",
-          "developerName": "couponCode",
+          "masterLabel": "metaKeywords",
+          "developerName": "metaKeywords",
           "dataType": "Text",
-          "isDataRequired": false,
-          "isCurrencyIsoCode": false
-        },
-        {
-          "masterLabel": "cartItemCount",
-          "developerName": "cartItemCount",
-          "dataType": "Number",
           "isDataRequired": false,
           "isCurrencyIsoCode": false
         }

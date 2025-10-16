@@ -1,187 +1,172 @@
 {
   "records": [
     {
-      "developerName": "catalog",
       "masterLabel": "Catalog",
+      "developerName": "catalog",
       "category": "Engagement",
       "availabilityStatus": "INUSE",
       "externalDataTranFields": [
         {
-          "masterLabel": "categoryPath",
+          "masterLabel": "category",
+          "developerName": "category",
           "dataType": "Text",
-          "developerName": "categoryPath",
-          "isDataRequired": false,
-          "isCurrencyIsoCode": false
-        },
-        {
-          "masterLabel": "currency",
-          "dataType": "Text",
-          "developerName": "currency",
-          "isDataRequired": false,
+          "isDataRequired": true,
           "isCurrencyIsoCode": false
         },
         {
           "masterLabel": "dateTime",
-          "dataType": "DateTime",
           "developerName": "dateTime",
+          "dataType": "DateTime",
           "isDataRequired": true,
           "isCurrencyIsoCode": false
         },
         {
           "masterLabel": "deviceId",
-          "dataType": "Text",
           "developerName": "deviceId",
+          "dataType": "Text",
           "isDataRequired": true,
           "isCurrencyIsoCode": false
         },
         {
           "masterLabel": "eventId",
-          "dataType": "Text",
           "developerName": "eventId",
+          "dataType": "Text",
           "isDataRequired": true,
-          "primaryIndexOrder": 1,
-          "isCurrencyIsoCode": false
+          "isCurrencyIsoCode": false,
+          "primaryIndexOrder": 1
         },
         {
           "masterLabel": "eventType",
-          "dataType": "Text",
           "developerName": "eventType",
+          "dataType": "Text",
           "isDataRequired": true,
           "isCurrencyIsoCode": false
         },
         {
-          "masterLabel": "name",
+          "masterLabel": "sessionId",
+          "developerName": "sessionId",
           "dataType": "Text",
-          "developerName": "name",
           "isDataRequired": true,
           "isCurrencyIsoCode": false
         },
         {
           "masterLabel": "id",
-          "dataType": "Text",
           "developerName": "id",
+          "dataType": "Text",
           "isDataRequired": true,
           "isCurrencyIsoCode": false
         },
         {
-          "masterLabel": "attributeName",
+          "masterLabel": "interactionName",
+          "developerName": "interactionName",
           "dataType": "Text",
-          "developerName": "attributeName",
-          "isDataRequired": false,
-          "isCurrencyIsoCode": false
-        },
-        {
-          "masterLabel": "attributeDescription",
-          "dataType": "Text",
-          "developerName": "attributeDescription",
-          "isDataRequired": false,
-          "isCurrencyIsoCode": false
-        },
-        {
-          "masterLabel": "attributePrice",
-          "dataType": "Number",
-          "developerName": "attributePrice",
-          "isDataRequired": false,
-          "isCurrencyIsoCode": false
-        },
-        {
-          "masterLabel": "attributeUrl",
-          "dataType": "Text",
-          "developerName": "attributeUrl",
-          "isDataRequired": false,
-          "isCurrencyIsoCode": false
-        },
-        {
-          "masterLabel": "attributeImageUrl",
-          "dataType": "Text",
-          "developerName": "attributeImageUrl",
-          "isDataRequired": false,
-          "isCurrencyIsoCode": false
-        },
-
-        {
-          "masterLabel": "attributeColor",
-          "dataType": "Text",
-          "developerName": "attributeColor",
-          "isDataRequired": false,
-          "isCurrencyIsoCode": false
-        },
-        {
-          "masterLabel": "attributeSize",
-          "dataType": "Text",
-          "developerName": "attributeSize",
-          "isDataRequired": false,
+          "isDataRequired": true,
           "isCurrencyIsoCode": false
         },
         {
           "masterLabel": "pageView",
-          "dataType": "Number",
           "developerName": "pageView",
+          "dataType": "Number",
           "isDataRequired": false,
-          "isCurrencyIsoCode": false
-        },
-
-        {
-          "masterLabel": "sessionId",
-          "dataType": "Text",
-          "developerName": "sessionId",
-          "isDataRequired": true,
           "isCurrencyIsoCode": false
         },
         {
           "masterLabel": "sourceChannel",
-          "dataType": "Text",
           "developerName": "sourceChannel",
+          "dataType": "Text",
           "isDataRequired": false,
           "isCurrencyIsoCode": false
         },
         {
           "masterLabel": "sourceLocale",
-          "dataType": "Text",
           "developerName": "sourceLocale",
+          "dataType": "Text",
           "isDataRequired": false,
           "isCurrencyIsoCode": false
         },
         {
           "masterLabel": "sourcePageType",
-          "dataType": "Text",
           "developerName": "sourcePageType",
+          "dataType": "Text",
           "isDataRequired": false,
           "isCurrencyIsoCode": false
         },
         {
           "masterLabel": "sourceUrl",
-          "dataType": "Text",
           "developerName": "sourceUrl",
+          "dataType": "Text",
           "isDataRequired": false,
           "isCurrencyIsoCode": false
         },
         {
           "masterLabel": "sourceUrlReferrer",
-          "dataType": "Text",
           "developerName": "sourceUrlReferrer",
+          "dataType": "Text",
           "isDataRequired": false,
           "isCurrencyIsoCode": false
         },
         {
           "masterLabel": "type",
-          "dataType": "Text",
           "developerName": "type",
+          "dataType": "Text",
           "isDataRequired": true,
           "isCurrencyIsoCode": false
         },
         {
-          "masterLabel": "url",
+          "masterLabel": "attributeBrand",
+          "developerName": "attributeBrand",
           "dataType": "Text",
-          "developerName": "url",
           "isDataRequired": false,
           "isCurrencyIsoCode": false
         },
         {
-          "masterLabel": "category",
+          "masterLabel": "attributeCategory",
+          "developerName": "attributeCategory",
           "dataType": "Text",
-          "developerName": "category",
-          "isDataRequired": true,
+          "isDataRequired": false,
+          "isCurrencyIsoCode": false
+        },
+        {
+          "masterLabel": "attributeName",
+          "developerName": "attributeName",
+          "dataType": "Text",
+          "isDataRequired": false,
+          "isCurrencyIsoCode": false
+        },
+        {
+          "masterLabel": "attributePrice",
+          "developerName": "attributePrice",
+          "dataType": "Number",
+          "isDataRequired": false,
+          "isCurrencyIsoCode": false
+        },
+        {
+          "masterLabel": "attributeSku",
+          "developerName": "attributeSku",
+          "dataType": "Text",
+          "isDataRequired": false,
+          "isCurrencyIsoCode": false
+        },
+        {
+          "masterLabel": "attributeImageUrl",
+          "developerName": "attributeImageUrl",
+          "dataType": "Text",
+          "isDataRequired": false,
+          "isCurrencyIsoCode": false
+        },
+
+        {
+          "masterLabel": "attributeRelatedCatalogObjectsColor",
+          "developerName": "attributeRelatedCatalogObjectsColor",
+          "dataType": "Text",
+          "isDataRequired": false,
+          "isCurrencyIsoCode": false
+        },
+        {
+          "masterLabel": "attributeRelatedCatalogObjectsSize",
+          "developerName": "attributeRelatedCatalogObjectsSize",
+          "dataType": "Text",
+          "isDataRequired": false,
           "isCurrencyIsoCode": false
         }
       ]

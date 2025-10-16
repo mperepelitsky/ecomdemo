@@ -1,159 +1,111 @@
 {
   "records": [
     {
-      "developerName": "contactPointAddress",
-      "masterLabel": "Contact Point Address",
+      "masterLabel": "Contact Point Email",
+      "developerName": "contactPointEmail",
       "category": "Profile",
-      "availabilityStatus": "AVAILABLE",
       "externalDataTranFields": [
         {
-          "masterLabel": "addressLine1",
-          "dataType": "Text",
-          "developerName": "addressLine1",
-          "isDataRequired": true,
-          "isCurrencyIsoCode": false
-        },
-        {
-          "masterLabel": "stateProvince",
-          "dataType": "Text",
-          "developerName": "stateProvince",
-          "isDataRequired": true,
-          "isCurrencyIsoCode": false
-        },
-        {
-          "masterLabel": "addressLine3",
-          "dataType": "Text",
-          "developerName": "addressLine3",
-          "isDataRequired": false,
-          "isCurrencyIsoCode": false
-        },
-        {
-          "masterLabel": "addressLine4",
-          "dataType": "Text",
-          "developerName": "addressLine4",
-          "isDataRequired": false,
-          "isCurrencyIsoCode": false
-        },
-        {
           "masterLabel": "category",
-          "dataType": "Text",
           "developerName": "category",
-          "isDataRequired": true,
-          "isCurrencyIsoCode": false
-        },
-        {
-          "masterLabel": "city",
           "dataType": "Text",
-          "developerName": "city",
-          "isDataRequired": true,
-          "isCurrencyIsoCode": false
-        },
-        {
-          "masterLabel": "country",
-          "dataType": "Text",
-          "developerName": "country",
           "isDataRequired": true,
           "isCurrencyIsoCode": false
         },
         {
           "masterLabel": "dateTime",
-          "dataType": "DateTime",
           "developerName": "dateTime",
+          "dataType": "DateTime",
           "isDataRequired": true,
           "isCurrencyIsoCode": false
         },
         {
           "masterLabel": "deviceId",
-          "dataType": "Text",
           "developerName": "deviceId",
+          "dataType": "Text",
           "isDataRequired": true,
           "primaryIndexOrder": 1,
           "isCurrencyIsoCode": false
         },
         {
-          "masterLabel": "eventId",
+          "masterLabel": "email",
+          "developerName": "email",
           "dataType": "Text",
+          "isDataRequired": true,
+          "isCurrencyIsoCode": false
+        },
+        {
+          "masterLabel": "eventId",
           "developerName": "eventId",
+          "dataType": "Text",
+          "isDataRequired": true,
+          "isCurrencyIsoCode": false
+        },
+
+        {
+          "masterLabel": "interactionName",
+          "developerName": "interactionName",
+          "dataType": "Text",
           "isDataRequired": true,
           "isCurrencyIsoCode": false
         },
         {
           "masterLabel": "eventType",
-          "dataType": "Text",
           "developerName": "eventType",
+          "dataType": "Text",
           "isDataRequired": true,
           "isCurrencyIsoCode": false
         },
         {
           "masterLabel": "pageView",
-          "dataType": "Number",
           "developerName": "pageView",
+          "dataType": "Number",
           "isDataRequired": false,
           "isCurrencyIsoCode": false
         },
         {
-          "masterLabel": "postalCode",
-          "dataType": "Text",
-          "developerName": "postalCode",
-          "isDataRequired": true,
-          "isCurrencyIsoCode": false
-        },
-        {
           "masterLabel": "sessionId",
-          "dataType": "Text",
           "developerName": "sessionId",
+          "dataType": "Text",
           "isDataRequired": true,
           "isCurrencyIsoCode": false
         },
         {
           "masterLabel": "sourceChannel",
-          "dataType": "Text",
           "developerName": "sourceChannel",
+          "dataType": "Text",
           "isDataRequired": false,
           "isCurrencyIsoCode": false
         },
         {
           "masterLabel": "sourceLocale",
-          "dataType": "Text",
           "developerName": "sourceLocale",
+          "dataType": "Text",
           "isDataRequired": false,
           "isCurrencyIsoCode": false
         },
         {
           "masterLabel": "sourcePageType",
-          "dataType": "Text",
           "developerName": "sourcePageType",
+          "dataType": "Text",
           "isDataRequired": false,
           "isCurrencyIsoCode": false
         },
         {
           "masterLabel": "sourceUrl",
-          "dataType": "Text",
           "developerName": "sourceUrl",
+          "dataType": "Text",
           "isDataRequired": false,
           "isCurrencyIsoCode": false
         },
         {
           "masterLabel": "sourceUrlReferrer",
-          "dataType": "Text",
           "developerName": "sourceUrlReferrer",
-          "isDataRequired": false,
-          "isCurrencyIsoCode": false
-        },
-        {
-          "masterLabel": "addressLine2",
           "dataType": "Text",
-          "developerName": "addressLine2",
           "isDataRequired": false,
           "isCurrencyIsoCode": false
         }
-      ],
-      "fieldCount": 20,
-      "availabilityStatusLabel": {
-        "label": "Available",
-        "rawValue": "AVAILABLE"
-      },
-      "streamingAppLabel": "ecomdemo_MP"
+      ]
     }
   ]
 }
