@@ -8,13 +8,13 @@ class ShoppingCart {
 
   // Load cart from localStorage
   loadCart() {
-    const saved = localStorage.getItem("clothingHubCart");
+    const saved = localStorage.getItem("vibeThreadCart");
     return saved ? JSON.parse(saved) : [];
   }
 
   // Save cart to localStorage
   saveCart() {
-    localStorage.setItem("clothingHubCart", JSON.stringify(this.items));
+    localStorage.setItem("vibeThreadCart", JSON.stringify(this.items));
   }
 
   // Add item to cart
@@ -355,15 +355,15 @@ class ShoppingCart {
         total: Number(total),
         date: new Date().toISOString(),
       };
-      let users = JSON.parse(localStorage.getItem("chezMikePHubUsers")) || [];
+      let users = JSON.parse(localStorage.getItem("vibeThreadUsers")) || [];
       let userIndex = users.findIndex((u) => u.email === currentUser.email);
       if (userIndex > -1) {
         users[userIndex].orders = users[userIndex].orders || [];
         users[userIndex].orders.push(order);
-        localStorage.setItem("chezMikePHubUsers", JSON.stringify(users));
-        // Also update the current user in chezMikePHubUser
+        localStorage.setItem("vibeThreadUsers", JSON.stringify(users));
+        // Also update the current user in vibeThreadUser
         const updatedUser = { ...users[userIndex] };
-        localStorage.setItem("chezMikePHubUser", JSON.stringify(updatedUser));
+        localStorage.setItem("vibeThreadUser", JSON.stringify(updatedUser));
       }
 
       // DataLayer: Track purchase (demo only, no real payment)

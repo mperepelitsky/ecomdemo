@@ -1,4 +1,4 @@
-// Authentication System for ClothingHub Demo
+// Authentication System for VibeThread Demo
 class AuthSystem {
   constructor() {
     console.log("AuthSystem initializing...");
@@ -10,20 +10,20 @@ class AuthSystem {
 
   // Get current user from localStorage
   static getCurrentUser() {
-    const saved = localStorage.getItem("chezMikePHubUser");
+    const saved = localStorage.getItem("vibeThreadUser");
     return saved ? JSON.parse(saved) : null;
   }
 
   // Save user to localStorage
   saveUser(user) {
-    localStorage.setItem("chezMikePHubUser", JSON.stringify(user));
+    localStorage.setItem("vibeThreadUser", JSON.stringify(user));
     this.currentUser = user;
     this.updateUIForCurrentUser();
   }
 
   // Remove user from localStorage
   logout() {
-    localStorage.removeItem("chezMikePHubUser");
+    localStorage.removeItem("vibeThreadUser");
     this.currentUser = null;
     this.updateUIForCurrentUser();
 
@@ -111,7 +111,7 @@ class AuthSystem {
       });
     }
 
-    this.showMessage(`Welcome to chezMikeP, ${firstName}!`, "success");
+    this.showMessage(`Welcome to VibeThread, ${firstName}!`, "success");
     console.log("User registration successful");
     return true;
   }
@@ -177,7 +177,7 @@ class AuthSystem {
 
   // Get all users from localStorage (demo database)
   getAllUsers() {
-    const saved = localStorage.getItem("chezMikePHubUsers");
+    const saved = localStorage.getItem("vibeThreadUsers");
     return saved ? JSON.parse(saved) : [];
   }
 
@@ -185,7 +185,7 @@ class AuthSystem {
   addUserToDatabase(user) {
     const users = this.getAllUsers();
     users.push(user);
-    localStorage.setItem("chezMikePHubUsers", JSON.stringify(users));
+    localStorage.setItem("vibeThreadUsers", JSON.stringify(users));
   }
 
   // Update user in localStorage database
@@ -194,7 +194,7 @@ class AuthSystem {
     const index = users.findIndex((u) => u.id === updatedUser.id);
     if (index > -1) {
       users[index] = updatedUser;
-      localStorage.setItem("chezMikePHubUsers", JSON.stringify(users));
+      localStorage.setItem("vibeThreadUsers", JSON.stringify(users));
     }
   }
 

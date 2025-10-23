@@ -68,7 +68,7 @@ function displayProductDetails() {
   updateColorOptions();
 
   // Set document title
-  document.title = `${currentProduct.name} - ClothingHub`;
+  document.title = `${currentProduct.name} - VibeThread`;
 }
 
 // Update product thumbnails
