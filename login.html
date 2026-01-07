@@ -523,5 +523,10 @@
     <script src="js/products.js"></script>
 
     <script src="js/auth.js"></script>
+    <script type="module">
+      import { app } from "./js/app.js";
+
+      app.init({ pageType: "login" });
+    </script>
   </body>
 </html>
