@@ -3,7 +3,7 @@
 ## Project Name and Short Description
 
 **ecomdemo**  
-Built for fun and to try various integrations with Salesforce, AWS, Adobe or others 
+Built for fun and to try various integrations with Salesforce, AWS, and others
 A shopping site featuring a variety of products, designed for testing and demonstration of Digital Commerce (DC) and other SDK events.
 Simulates category views, product views, add to cart and purchase.
 Ability to log in and simple account page view and manipulation.
@@ -60,3 +60,26 @@ All values and items is tracked in the datalayer for now.
 - Data layer tracking for analytics
 
 **Note**: This application is now branded as VibeThread throughout the codebase.
+
+## Infrastructure (AWS CDK)
+
+This repo includes a CDK app that creates an S3 + CloudFront static site with ACM + Route53.
+
+Deploy:
+
+```bash
+cd infra
+npm install
+npx cdk deploy -c domainName=shop.mikesdemos.com -c hostedZoneDomain=mikesdemos.com
+```
+
+Upload the site content after deploy (replace the bucket name from stack outputs):
+
+```bash
+aws s3 sync . s3://YOUR_BUCKET_NAME --delete --exclude "infra/*" --exclude ".git/*" --exclude "node_modules/*"
+```
+
+Notes:
+
+- The ACM certificate is created in us-east-1 for CloudFront.
+- S3 is private; CloudFront uses OAC for access.

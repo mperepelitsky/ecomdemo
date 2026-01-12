@@ -56,3 +56,6 @@ coverage/
 # =========================
 *.tmp
 *.swp
+
+# AWS CDK
+cdk.out/
