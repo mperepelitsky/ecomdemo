@@ -4,6 +4,8 @@ import * as cloudfront from "aws-cdk-lib/aws-cloudfront";
 import * as iam from "aws-cdk-lib/aws-iam";
 import * as route53 from "aws-cdk-lib/aws-route53";
 import * as s3 from "aws-cdk-lib/aws-s3";
+import * as s3deploy from "aws-cdk-lib/aws-s3-deployment";
+import * as path from "path";
 import { Construct } from "constructs";
 
 interface EcomdemoStaticSiteStackProps extends cdk.StackProps {
@@ -12,7 +14,11 @@ interface EcomdemoStaticSiteStackProps extends cdk.StackProps {
 }
 
 export class EcomdemoStaticSiteStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props: EcomdemoStaticSiteStackProps) {
+  constructor(
+    scope: Construct,
+    id: string,
+    props: EcomdemoStaticSiteStackProps
+  ) {
     super(scope, id, props);
 
     const hostedZone = route53.HostedZone.fromLookup(this, "HostedZone", {
@@ -34,6 +40,16 @@ export class EcomdemoStaticSiteStack extends cdk.Stack {
       enforceSSL: true,
       versioned: false,
       removalPolicy: cdk.RemovalPolicy.RETAIN,
+    });
+
+    // ✅ Upload static site content into the bucket
+    // Expects your repo root to contain a folder named "site" with index.html + js/ + Assets/
+    new s3deploy.BucketDeployment(this, "DeployWebsite", {
+      destinationBucket: siteBucket,
+      sources: [
+        s3deploy.Source.asset(path.join(__dirname, "..", "..", "site")),
+      ],
+      prune: true,
     });
 
     const originAccessControl = new cloudfront.CfnOriginAccessControl(
@@ -85,6 +101,7 @@ export class EcomdemoStaticSiteStack extends cdk.Stack {
       }
     );
 
+    // Allow CloudFront (via OAC) to read objects from bucket
     siteBucket.addToResourcePolicy(
       new iam.PolicyStatement({
         actions: ["s3:GetObject"],
