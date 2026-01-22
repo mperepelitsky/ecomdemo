@@ -20,7 +20,7 @@ export class EcomdemoStaticSiteStack extends cdk.Stack {
   constructor(
     scope: Construct,
     id: string,
-    props: EcomdemoStaticSiteStackProps
+    props: EcomdemoStaticSiteStackProps,
   ) {
     super(scope, id, props);
 
@@ -37,7 +37,7 @@ export class EcomdemoStaticSiteStack extends cdk.Stack {
         domainName: props.domainName,
         hostedZone,
         region: "us-east-1",
-      }
+      },
     );
 
     const siteBucket = new s3.Bucket(this, "SiteBucket", {
@@ -67,7 +67,7 @@ export class EcomdemoStaticSiteStack extends cdk.Stack {
           signingBehavior: "always",
           signingProtocol: "sigv4",
         },
-      }
+      },
     );
 
     const distribution = new cloudfront.CfnDistribution(
@@ -103,7 +103,7 @@ export class EcomdemoStaticSiteStack extends cdk.Stack {
             minimumProtocolVersion: "TLSv1.2_2021",
           },
         },
-      }
+      },
     );
 
     // Allow CloudFront (via OAC) to read objects from bucket
@@ -117,7 +117,7 @@ export class EcomdemoStaticSiteStack extends cdk.Stack {
             "AWS:SourceArn": `arn:aws:cloudfront::${cdk.Aws.ACCOUNT_ID}:distribution/${distribution.ref}`,
           },
         },
-      })
+      }),
     );
 
     new route53.CfnRecordSet(this, "SiteAliasRecordA", {
@@ -163,11 +163,14 @@ export class EcomdemoStaticSiteStack extends cdk.Stack {
       "CatalogCategories",
       {
         tableName: `${stage}-CatalogCategories`,
-        partitionKey: { name: "categoryId", type: dynamodb.AttributeType.STRING },
+        partitionKey: {
+          name: "categoryId",
+          type: dynamodb.AttributeType.STRING,
+        },
         billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
         pointInTimeRecovery: false,
         removalPolicy: cdk.RemovalPolicy.DESTROY,
-      }
+      },
     );
 
     const catalogProductsTable = new dynamodb.Table(this, "CatalogProducts", {
@@ -183,7 +186,7 @@ export class EcomdemoStaticSiteStack extends cdk.Stack {
         runtime: lambda.Runtime.NODEJS_20_X,
         handler: "index.handler",
         code: lambda.Code.fromInline(
-          "exports.handler = async () => ({ statusCode: 200, body: 'ok' });"
+          "exports.handler = async () => ({ statusCode: 200, body: 'ok' });",
         ),
         logRetention: logs.RetentionDays.ONE_WEEK,
       });
