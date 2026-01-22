@@ -3,9 +3,11 @@ import { Construct } from "constructs";
 import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
 import * as s3 from "aws-cdk-lib/aws-s3";
 import * as lambda from "aws-cdk-lib/aws-lambda";
+import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
 import * as apigwv2 from "aws-cdk-lib/aws-apigatewayv2";
 import * as integrations from "aws-cdk-lib/aws-apigatewayv2-integrations";
 import * as logs from "aws-cdk-lib/aws-logs";
+import * as path from "path";
 
 export interface EcomdemoCatalogStackProps extends cdk.StackProps {
   stage: string;
@@ -45,21 +47,29 @@ export class EcomdemoCatalogStack extends cdk.Stack {
     });
 
     // Example Lambda (you’ll replace with real handlers)
-    const getCategoriesFn = new lambda.Function(this, "GetCategoriesFn", {
+    const getCategoriesFn = new NodejsFunction(this, "GetCategoriesFn", {
       runtime: lambda.Runtime.NODEJS_20_X,
-      handler: "index.handler",
-      code: lambda.Code.fromInline(`
-        exports.handler = async () => ({ statusCode: 200, body: JSON.stringify({ ok: true }) });
-      `),
+      entry: path.join(__dirname, "..", "lambda", "catalog", "getCategories.ts"),
+      handler: "handler",
       environment: {
-        CATEGORIES_TABLE: categoriesTable.tableName,
+        CATEGORIES_TABLE: "EcomdemoStaticSiteStack-CatalogCategories",
+      },
+      logRetention: logs.RetentionDays.ONE_WEEK,
+    });
+
+    const getProductsFn = new NodejsFunction(this, "GetProductsFn", {
+      runtime: lambda.Runtime.NODEJS_20_X,
+      entry: path.join(__dirname, "..", "lambda", "catalog", "getProducts.ts"),
+      handler: "handler",
+      environment: {
+        PRODUCTS_TABLE: "EcomdemoStaticSiteStack-CatalogProducts",
       },
       logRetention: logs.RetentionDays.ONE_WEEK,
     });
 
     // Permissions
     categoriesTable.grantReadData(getCategoriesFn);
-    productsTable.grantReadData(getCategoriesFn); // adjust later
+    productsTable.grantReadData(getProductsFn);
 
     // HTTP API
     const api = new apigwv2.HttpApi(this, "CatalogHttpApi", {
@@ -81,6 +91,24 @@ export class EcomdemoCatalogStack extends cdk.Stack {
       integration: new integrations.HttpLambdaIntegration(
         "GetCategoriesIntegration",
         getCategoriesFn,
+      ),
+    });
+
+    api.addRoutes({
+      path: "/products",
+      methods: [apigwv2.HttpMethod.GET],
+      integration: new integrations.HttpLambdaIntegration(
+        "GetProductsIntegration",
+        getProductsFn,
+      ),
+    });
+
+    api.addRoutes({
+      path: "/products/{productId}",
+      methods: [apigwv2.HttpMethod.GET],
+      integration: new integrations.HttpLambdaIntegration(
+        "GetProductIntegration",
+        getProductsFn,
       ),
     });
 

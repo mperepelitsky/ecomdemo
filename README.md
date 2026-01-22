@@ -36,6 +36,17 @@ aws dynamodb describe-table --table-name EcomdemoStaticSiteStack-CatalogCategori
 aws cloudformation describe-stacks --stack-name EcomdemoCatalogStack --query "Stacks[0].Outputs[?OutputKey=='CatalogApiBaseUrl'].OutputValue" --output text
 ```
 
+Verification (after EcomdemoCatalogStack deploy):
+```bash
+aws cloudformation describe-stacks --stack-name EcomdemoCatalogStack --query "Stacks[0].Outputs[?OutputKey=='CatalogApiBaseUrl'].OutputValue" --output text
+```
+
+```bash
+curl "<API_BASE>/categories"
+curl "<API_BASE>/products?categoryId=men"
+curl "<API_BASE>/products/{productId}"
+```
+
 ## Deploy
 
 Install + build:
