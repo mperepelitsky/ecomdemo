@@ -9,10 +9,15 @@
     "deploy": "cdk deploy",
     "destroy": "cdk destroy"
   },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.758.0",
+    "@aws-sdk/lib-dynamodb": "^3.758.0"
+  },
   "devDependencies": {
     "aws-cdk": "2.138.0",
     "aws-cdk-lib": "2.138.0",
     "constructs": "^10.3.0",
+    "esbuild": "^0.23.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   }

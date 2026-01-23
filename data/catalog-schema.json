@@ -1,0 +1,304 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ecomdemo.local/schemas/catalog.json",
+  "title": "Ecomdemo Catalog Schema",
+  "description": "JSON Schema for category and product records used by the demo catalog.",
+  "oneOf": [{ "$ref": "#/$defs/Category" }, { "$ref": "#/$defs/Product" }],
+  "$defs": {
+    "DynamoKeys": {
+      "type": "object",
+      "description": "Optional DynamoDB keys for single-table storage. These are typically omitted in API responses.",
+      "properties": {
+        "pk": {
+          "type": "string",
+          "description": "Partition key, e.g. CAT#men or PROD#001.",
+          "examples": ["CAT#men", "PROD#0001"]
+        },
+        "sk": {
+          "type": "string",
+          "description": "Sort key, e.g. META or VARIANT#sku.",
+          "examples": ["META", "VARIANT#0001-RED-S"]
+        },
+        "gsi1pk": {
+          "type": "string",
+          "description": "Optional GSI1 partition key for lookup patterns."
+        },
+        "gsi1sk": {
+          "type": "string",
+          "description": "Optional GSI1 sort key for lookup patterns."
+        },
+        "entityType": {
+          "type": "string",
+          "description": "Entity discriminator for storage."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO timestamp for record creation.",
+          "readOnly": true
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO timestamp for record updates.",
+          "readOnly": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "Image": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "alt": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string",
+          "description": "Primary, swatch, lifestyle, or detail image."
+        }
+      },
+      "required": ["url"],
+      "additionalProperties": false
+    },
+    "Variant": {
+      "type": "object",
+      "properties": {
+        "sku": {
+          "type": "string"
+        },
+        "size": {
+          "type": "string"
+        },
+        "color": {
+          "type": "string"
+        },
+        "images": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Image" },
+          "default": []
+        },
+        "price": {
+          "type": "number",
+          "minimum": 0
+        },
+        "inventoryStatus": {
+          "type": "string",
+          "enum": [
+            "in_stock",
+            "low_stock",
+            "out_of_stock",
+            "preorder",
+            "backorder"
+          ]
+        },
+        "availabilityReason": {
+          "type": "string",
+          "enum": [
+            "active",
+            "seasonal",
+            "limited_release",
+            "discontinued",
+            "region_restricted",
+            "compliance_hold"
+          ]
+        }
+      },
+      "required": ["sku"],
+      "additionalProperties": false
+    },
+    "Category": {
+      "allOf": [
+        { "$ref": "#/$defs/DynamoKeys" },
+        {
+          "type": "object",
+          "properties": {
+            "entityType": {
+              "const": "category"
+            },
+            "id": {
+              "type": ["string", "integer"],
+              "description": "Stable category identifier used by APIs."
+            },
+            "slug": {
+              "type": "string",
+              "pattern": "^[a-z0-9-]+$"
+            },
+            "name": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "parentId": {
+              "type": ["string", "integer", "null"]
+            },
+            "image": {
+              "type": "string",
+              "format": "uri"
+            },
+            "tags": {
+              "type": "array",
+              "items": { "type": "string" },
+              "default": []
+            },
+            "collections": {
+              "type": "array",
+              "items": { "type": "string" },
+              "default": []
+            },
+            "affinityTags": {
+              "type": "array",
+              "items": { "type": "string" },
+              "default": []
+            },
+            "promoFlags": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["featured", "seasonal", "clearance", "new_arrival"]
+              },
+              "default": []
+            }
+          },
+          "required": ["entityType", "id", "slug", "name"],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "Product": {
+      "allOf": [
+        { "$ref": "#/$defs/DynamoKeys" },
+        {
+          "type": "object",
+          "properties": {
+            "entityType": {
+              "const": "product"
+            },
+            "id": {
+              "type": ["string", "integer"],
+              "description": "Stable product identifier used by APIs."
+            },
+            "sku": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "slug": {
+              "type": "string",
+              "pattern": "^[a-z0-9-]+$"
+            },
+            "categoryId": {
+              "type": ["string", "integer"]
+            },
+            "categorySlug": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "price": {
+              "type": "number",
+              "minimum": 0
+            },
+            "currency": {
+              "type": "string",
+              "default": "USD",
+              "minLength": 3,
+              "maxLength": 3
+            },
+            "images": {
+              "type": "array",
+              "items": { "$ref": "#/$defs/Image" },
+              "default": []
+            },
+            "sizes": {
+              "type": "array",
+              "items": { "type": "string" },
+              "default": []
+            },
+            "colors": {
+              "type": "array",
+              "items": { "type": "string" },
+              "default": []
+            },
+            "variants": {
+              "type": "array",
+              "items": { "$ref": "#/$defs/Variant" },
+              "default": []
+            },
+            "tags": {
+              "type": "array",
+              "items": { "type": "string" },
+              "default": []
+            },
+            "collections": {
+              "type": "array",
+              "items": { "type": "string" },
+              "default": []
+            },
+            "affinityTags": {
+              "type": "array",
+              "items": { "type": "string" },
+              "default": []
+            },
+            "promoFlags": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "sale",
+                  "clearance",
+                  "bogo",
+                  "new_arrival",
+                  "featured",
+                  "limited_time"
+                ]
+              },
+              "default": []
+            },
+            "priceBand": {
+              "type": "string",
+              "enum": ["budget", "value", "mid", "premium", "luxury"]
+            },
+            "marginBand": {
+              "type": "string",
+              "enum": ["low", "mid", "high"]
+            },
+            "inventoryStatus": {
+              "type": "string",
+              "enum": [
+                "in_stock",
+                "low_stock",
+                "out_of_stock",
+                "preorder",
+                "backorder"
+              ]
+            },
+            "availabilityReason": {
+              "type": "string",
+              "enum": [
+                "active",
+                "seasonal",
+                "limited_release",
+                "discontinued",
+                "region_restricted",
+                "compliance_hold"
+              ]
+            },
+            "featured": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          "required": ["entityType", "id", "name", "price"],
+          "additionalProperties": false
+        }
+      ]
+    }
+  }
+}

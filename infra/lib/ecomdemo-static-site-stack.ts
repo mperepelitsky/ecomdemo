@@ -1,7 +1,10 @@
 import * as cdk from "aws-cdk-lib";
 import * as acm from "aws-cdk-lib/aws-certificatemanager";
 import * as cloudfront from "aws-cdk-lib/aws-cloudfront";
+import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
 import * as iam from "aws-cdk-lib/aws-iam";
+import * as lambda from "aws-cdk-lib/aws-lambda";
+import * as logs from "aws-cdk-lib/aws-logs";
 import * as route53 from "aws-cdk-lib/aws-route53";
 import * as s3 from "aws-cdk-lib/aws-s3";
 import * as s3deploy from "aws-cdk-lib/aws-s3-deployment";
@@ -17,9 +20,11 @@ export class EcomdemoStaticSiteStack extends cdk.Stack {
   constructor(
     scope: Construct,
     id: string,
-    props: EcomdemoStaticSiteStackProps
+    props: EcomdemoStaticSiteStackProps,
   ) {
     super(scope, id, props);
+
+    const stage = props.stackName ?? this.stackName;
 
     const hostedZone = route53.HostedZone.fromLookup(this, "HostedZone", {
       domainName: props.hostedZoneDomain,
@@ -32,7 +37,7 @@ export class EcomdemoStaticSiteStack extends cdk.Stack {
         domainName: props.domainName,
         hostedZone,
         region: "us-east-1",
-      }
+      },
     );
 
     const siteBucket = new s3.Bucket(this, "SiteBucket", {
@@ -62,7 +67,7 @@ export class EcomdemoStaticSiteStack extends cdk.Stack {
           signingBehavior: "always",
           signingProtocol: "sigv4",
         },
-      }
+      },
     );
 
     const distribution = new cloudfront.CfnDistribution(
@@ -98,7 +103,7 @@ export class EcomdemoStaticSiteStack extends cdk.Stack {
             minimumProtocolVersion: "TLSv1.2_2021",
           },
         },
-      }
+      },
     );
 
     // Allow CloudFront (via OAC) to read objects from bucket
@@ -112,7 +117,7 @@ export class EcomdemoStaticSiteStack extends cdk.Stack {
             "AWS:SourceArn": `arn:aws:cloudfront::${cdk.Aws.ACCOUNT_ID}:distribution/${distribution.ref}`,
           },
         },
-      })
+      }),
     );
 
     new route53.CfnRecordSet(this, "SiteAliasRecordA", {
@@ -151,6 +156,49 @@ export class EcomdemoStaticSiteStack extends cdk.Stack {
 
     new cdk.CfnOutput(this, "SiteUrl", {
       value: `https://${props.domainName}`,
+    });
+
+    const catalogCategoriesTable = new dynamodb.Table(
+      this,
+      "CatalogCategories",
+      {
+        tableName: `${stage}-CatalogCategories`,
+        partitionKey: {
+          name: "categoryId",
+          type: dynamodb.AttributeType.STRING,
+        },
+        billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+        pointInTimeRecovery: false,
+        removalPolicy: cdk.RemovalPolicy.DESTROY,
+      },
+    );
+
+    const catalogProductsTable = new dynamodb.Table(this, "CatalogProducts", {
+      tableName: `${stage}-CatalogProducts`,
+      partitionKey: { name: "productId", type: dynamodb.AttributeType.STRING },
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+      pointInTimeRecovery: false,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+    });
+
+    const withLogRetention = (idSuffix: string) =>
+      new lambda.Function(this, `ExampleLambda${idSuffix}`, {
+        runtime: lambda.Runtime.NODEJS_20_X,
+        handler: "index.handler",
+        code: lambda.Code.fromInline(
+          "exports.handler = async () => ({ statusCode: 200, body: 'ok' });",
+        ),
+        logRetention: logs.RetentionDays.ONE_WEEK,
+      });
+
+    withLogRetention("Demo");
+
+    new cdk.CfnOutput(this, "CatalogCategoriesTableName", {
+      value: catalogCategoriesTable.tableName,
+    });
+
+    new cdk.CfnOutput(this, "CatalogProductsTableName", {
+      value: catalogProductsTable.tableName,
     });
   }
 }
