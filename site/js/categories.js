@@ -215,11 +215,11 @@ function showQuickAdd(productId) {
   // Create modal
   const modal = document.createElement("div");
   modal.className =
-    "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50";
+    "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4";
   modal.id = "quickAddModal";
 
   modal.innerHTML = `
-        <div class="bg-white rounded-lg max-w-md w-full mx-4 max-h-96 overflow-y-auto">
+        <div class="bg-white rounded-lg max-w-lg w-full max-h-[90vh] overflow-y-auto">
             <div class="p-6">
                 <div class="flex items-center justify-between mb-4">
                     <h3 class="text-lg font-semibold">Add to Cart</h3>
@@ -294,6 +294,12 @@ function showQuickAdd(productId) {
 
   document.body.appendChild(modal);
   document.body.style.overflow = "hidden";
+
+  modal.addEventListener("click", (event) => {
+    if (event.target === modal) {
+      closeQuickAdd();
+    }
+  });
 }
 
 // Close quick add modal

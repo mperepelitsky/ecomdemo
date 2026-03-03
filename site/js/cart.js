@@ -36,7 +36,8 @@ class ShoppingCart {
         productId,
         quantity,
         size,
-        color,I don't m
+        color,
+        unitPrice: product.price,
         addedAt: new Date().toISOString(),
       });
     }
@@ -114,7 +115,14 @@ class ShoppingCart {
   // Get cart total
   getTotal() {
     return this.items.reduce((total, item) => {
-      return Number(total + item.price * item.quantity);
+      const product = ProductUtils.getProductById(item.productId);
+      const unitPrice =
+        typeof item.unitPrice === "number"
+          ? item.unitPrice
+          : product
+            ? product.price
+            : 0;
+      return total + unitPrice * item.quantity;
     }, 0);
   }
 
@@ -150,6 +158,10 @@ class ShoppingCart {
         const colorArg = JSON.stringify(item.color);
         const imageClass = compact ? "w-16 h-16" : "w-20 h-20";
         const itemNameClass = compact ? "font-semibold text-sm" : "font-semibold";
+        const unitPrice =
+          typeof item.unitPrice === "number"
+            ? item.unitPrice
+            : product.price;
 
         return `
           <div class="flex items-center space-x-4 py-4 border-b last:border-b-0">
@@ -174,7 +186,7 @@ class ShoppingCart {
             </div>
             <div class="text-right">
               <p class="font-semibold">${ProductUtils.formatPrice(
-                item.price * item.quantity
+                unitPrice * item.quantity
               )}</p>
               <button onclick="cart.removeItem(${item.productId}, ${sizeArg}, ${colorArg})"
                 class="text-red-500 hover:text-red-700 text-xs">Remove</button>

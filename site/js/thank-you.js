@@ -39,6 +39,14 @@ document.addEventListener("DOMContentLoaded", function () {
       .map((item) => {
         const product = ProductUtils.getProductById(item.productId);
         const productName = product ? product.name : `Item ${item.productId}`;
+        const unitPrice =
+          typeof item.unitPrice === "number"
+            ? item.unitPrice
+            : typeof item.price === "number"
+              ? item.price
+              : product
+                ? product.price
+                : 0;
         const variantParts = [];
         if (item.size) variantParts.push(`Size: ${item.size}`);
         if (item.color) variantParts.push(`Color: ${item.color}`);
@@ -47,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return `
           <li class="py-2 border-b last:border-b-0 flex justify-between gap-4">
             <span>${productName}${variantText} x${item.quantity}</span>
-            <span class="font-semibold">${ProductUtils.formatPrice(item.price * item.quantity)}</span>
+            <span class="font-semibold">${ProductUtils.formatPrice(unitPrice * item.quantity)}</span>
           </li>
         `;
       })
@@ -56,11 +64,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const orderItemsForTracking = savedOrder.items.map((item) => {
     const product = ProductUtils.getProductById(item.productId);
+    const unitPrice =
+      typeof item.unitPrice === "number"
+        ? item.unitPrice
+        : typeof item.price === "number"
+          ? item.price
+          : product
+            ? product.price
+            : 0;
     return {
       item_id: String(item.productId),
       item_name: product ? product.name : `Item ${item.productId}`,
       quantity: item.quantity,
-      price: item.price,
+      price: unitPrice,
       item_variant: [item.size, item.color].filter(Boolean).join(" / ") || null,
     };
   });

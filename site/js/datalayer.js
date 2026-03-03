@@ -99,13 +99,14 @@ class DataLayerManager {
   trackViewCart(cartItems, cartValue) {
     const items = cartItems.map((item) => {
       const product = ProductUtils.getProductById(item.productId);
+      const unitPrice = this.getItemUnitPrice(item, product);
       return {
         item_id: item.productId.toString(),
         item_name: product.name,
         item_category: this.getCategoryName(product.category),
         item_variant: this.getVariant(item.size, item.color),
         quantity: item.quantity,
-        price: item.price,
+        price: unitPrice,
       };
     });
 
@@ -125,13 +126,14 @@ class DataLayerManager {
   trackBeginCheckout(cartItems, cartValue) {
     const items = cartItems.map((item) => {
       const product = ProductUtils.getProductById(item.productId);
+      const unitPrice = this.getItemUnitPrice(item, product);
       return {
         item_id: item.productId.toString(),
         item_name: product.name,
         item_category: this.getCategoryName(product.category),
         item_variant: this.getVariant(item.size, item.color),
         quantity: item.quantity,
-        price: item.price,
+        price: unitPrice,
       };
     });
 
@@ -151,13 +153,14 @@ class DataLayerManager {
   trackPurchase(cartItems, cartValue, transactionId) {
     const items = cartItems.map((item) => {
       const product = ProductUtils.getProductById(item.productId);
+      const unitPrice = this.getItemUnitPrice(item, product);
       return {
         item_id: item.productId.toString(),
         item_name: product.name,
         item_category: this.getCategoryName(product.category),
         item_variant: this.getVariant(item.size, item.color),
         quantity: item.quantity,
-        price: item.price,
+        price: unitPrice,
       };
     });
 
@@ -263,6 +266,12 @@ class DataLayerManager {
       return cart.getItemCount();
     }
     return 0;
+  }
+
+  getItemUnitPrice(item, product) {
+    if (typeof item.unitPrice === "number") return item.unitPrice;
+    if (typeof item.price === "number") return item.price;
+    return product ? product.price : 0;
   }
 
   // Track page view
