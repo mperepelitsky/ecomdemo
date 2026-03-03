@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Account - VibeThread</title>
+
+    <script>
+      window.dataLayer = window.dataLayer || [];
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.c360a.salesforce.com/beacon/c360a/ef0e581a-df74-4390-804c-ac8b59ca6188/scripts/c360a.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body class="bg-gray-50">
+    <header class="bg-white shadow-md sticky top-0 z-50">
+      <nav class="container mx-auto px-4">
+        <div class="flex items-center justify-between h-16">
+          <div class="flex-shrink-0 flex items-center gap-2">
+            <img
+              src="Assets/VibeThread Logo.jpg"
+              alt="VibeThread logo"
+              class="h-8 w-8 object-contain rounded"
+            />
+            <a href="index.html" class="text-2xl font-bold text-gray-800">VibeThread</a>
+          </div>
+
+          <div class="hidden md:block">
+            <div class="ml-10 flex items-baseline space-x-4">
+              <a href="index.html" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+              <a href="categories.html" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Categories</a>
+              <a href="about.html" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">About</a>
+            </div>
+          </div>
+
+          <div class="flex items-center space-x-4">
+            <a href="account.html" class="text-blue-600" id="userIcon">
+              <i class="fas fa-user-circle text-lg"></i>
+            </a>
+            <button class="relative text-gray-700 hover:text-blue-600" id="cartIcon">
+              <i class="fas fa-shopping-cart text-lg"></i>
+              <span
+                class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
+                id="cartCount"
+                >0</span
+              >
+            </button>
+          </div>
+
+          <div class="md:hidden">
+            <button class="text-gray-700 hover:text-blue-600" id="mobileMenuButton">
+              <i class="fas fa-bars text-lg"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="md:hidden" id="mobileMenu" style="display: none">
+          <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-50">
+            <a href="index.html" class="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">Home</a>
+            <a href="categories.html" class="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">Categories</a>
+            <a href="about.html" class="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">About</a>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <section class="bg-gradient-to-r from-blue-600 to-purple-700 text-white py-10">
+      <div class="container mx-auto px-4">
+        <h1 class="text-4xl font-bold">My Account</h1>
+        <p class="text-blue-100 mt-1">Manage profile, addresses, orders, wishlist, and preferences.</p>
+      </div>
+    </section>
+
+    <main class="container mx-auto px-4 py-10">
+      <div class="grid lg:grid-cols-4 gap-8">
+        <aside class="lg:col-span-1 bg-white rounded-lg shadow-sm p-4 h-fit">
+          <nav class="space-y-2" id="accountNav">
+            <button data-account-tab="profile" class="account-tab w-full text-left px-4 py-2 rounded-lg bg-blue-600 text-white">Profile</button>
+            <button data-account-tab="addresses" class="account-tab w-full text-left px-4 py-2 rounded-lg hover:bg-gray-100 text-gray-700">Addresses</button>
+            <button data-account-tab="orders" class="account-tab w-full text-left px-4 py-2 rounded-lg hover:bg-gray-100 text-gray-700">Order History</button>
+            <button data-account-tab="wishlist" class="account-tab w-full text-left px-4 py-2 rounded-lg hover:bg-gray-100 text-gray-700">Wishlist</button>
+            <button data-account-tab="security" class="account-tab w-full text-left px-4 py-2 rounded-lg hover:bg-gray-100 text-gray-700">Security</button>
+            <button data-account-tab="preferences" class="account-tab w-full text-left px-4 py-2 rounded-lg hover:bg-gray-100 text-gray-700">Preferences</button>
+            <button id="accountLogoutBtn" class="w-full text-left px-4 py-2 rounded-lg text-red-600 hover:bg-red-50">Logout</button>
+          </nav>
+        </aside>
+
+        <section class="lg:col-span-3 space-y-6">
+          <div data-account-panel="profile" class="account-panel bg-white rounded-lg shadow-sm p-6">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-1">Profile</h2>
+            <p class="text-sm text-gray-500 mb-6">Basic account information for your profile.</p>
+            <form id="profileForm" class="grid md:grid-cols-2 gap-4">
+              <div>
+                <label for="profileFirstName" class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                <input id="profileFirstName" type="text" class="w-full border border-gray-300 rounded-lg px-3 py-2" required />
+              </div>
+              <div>
+                <label for="profileLastName" class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                <input id="profileLastName" type="text" class="w-full border border-gray-300 rounded-lg px-3 py-2" required />
+              </div>
+              <div>
+                <label for="profileEmail" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                <input id="profileEmail" type="email" class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-100" readonly />
+              </div>
+              <div>
+                <label for="profilePhone" class="block text-sm font-medium text-gray-700 mb-1">Phone (optional)</label>
+                <input id="profilePhone" type="tel" class="w-full border border-gray-300 rounded-lg px-3 py-2" />
+              </div>
+              <div class="md:col-span-2 text-sm text-gray-500">Member since: <span id="profileMemberSince">-</span></div>
+              <div class="md:col-span-2">
+                <button type="submit" class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700">Save Profile</button>
+              </div>
+            </form>
+          </div>
+
+          <div data-account-panel="addresses" class="account-panel hidden bg-white rounded-lg shadow-sm p-6">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-1">Address Book</h2>
+            <p class="text-sm text-gray-500 mb-6">Save shipping and billing addresses for faster checkout.</p>
+            <div id="addressList" class="space-y-3 mb-6"></div>
+            <form id="addressForm" class="grid md:grid-cols-2 gap-4 border-t pt-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1" for="addressLabel">Address Label</label>
+                <input id="addressLabel" type="text" placeholder="Home" class="w-full border border-gray-300 rounded-lg px-3 py-2" required />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1" for="addressName">Recipient Name</label>
+                <input id="addressName" type="text" class="w-full border border-gray-300 rounded-lg px-3 py-2" required />
+              </div>
+              <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700 mb-1" for="addressLine1">Address Line 1</label>
+                <input id="addressLine1" type="text" class="w-full border border-gray-300 rounded-lg px-3 py-2" required />
+              </div>
+              <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700 mb-1" for="addressLine2">Address Line 2 (optional)</label>
+                <input id="addressLine2" type="text" class="w-full border border-gray-300 rounded-lg px-3 py-2" />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1" for="addressCity">City</label>
+                <input id="addressCity" type="text" class="w-full border border-gray-300 rounded-lg px-3 py-2" required />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1" for="addressState">State</label>
+                <input id="addressState" type="text" class="w-full border border-gray-300 rounded-lg px-3 py-2" required />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1" for="addressZip">Postal Code</label>
+                <input id="addressZip" type="text" class="w-full border border-gray-300 rounded-lg px-3 py-2" required />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1" for="addressCountry">Country</label>
+                <input id="addressCountry" type="text" value="United States" class="w-full border border-gray-300 rounded-lg px-3 py-2" required />
+              </div>
+              <div class="md:col-span-2">
+                <button type="submit" class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700">Save Address</button>
+              </div>
+            </form>
+          </div>
+
+          <div data-account-panel="orders" class="account-panel hidden bg-white rounded-lg shadow-sm p-6">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-1">Order History</h2>
+            <p class="text-sm text-gray-500 mb-6">Review your previous purchases and order totals.</p>
+            <div id="orderHistory"></div>
+          </div>
+
+          <div data-account-panel="wishlist" class="account-panel hidden bg-white rounded-lg shadow-sm p-6">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-1">Wishlist</h2>
+            <p class="text-sm text-gray-500 mb-6">Save products for later (placeholder demo functionality).</p>
+            <div id="wishlistContent"></div>
+          </div>
+
+          <div data-account-panel="security" class="account-panel hidden bg-white rounded-lg shadow-sm p-6">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-1">Security</h2>
+            <p class="text-sm text-gray-500 mb-6">These are demo placeholders only. No real password management is implemented.</p>
+            <div class="space-y-4">
+              <div class="border rounded-lg p-4">
+                <p class="font-semibold text-gray-800">Password</p>
+                <p class="text-sm text-gray-500 mb-3">Last changed: not available in demo</p>
+                <button id="securityPasswordBtn" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">Change Password (Placeholder)</button>
+              </div>
+              <div class="border rounded-lg p-4">
+                <p class="font-semibold text-gray-800">Two-Factor Authentication</p>
+                <p class="text-sm text-gray-500 mb-3">Protect your account with a second factor.</p>
+                <button id="security2faBtn" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">Enable 2FA (Placeholder)</button>
+              </div>
+            </div>
+          </div>
+
+          <div data-account-panel="preferences" class="account-panel hidden bg-white rounded-lg shadow-sm p-6">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-1">Preferences</h2>
+            <p class="text-sm text-gray-500 mb-6">Control communication settings for your account.</p>
+            <form id="preferencesForm" class="space-y-4">
+              <label class="flex items-center justify-between border rounded-lg px-4 py-3">
+                <span class="text-gray-700">Marketing emails</span>
+                <input id="prefMarketingEmail" type="checkbox" class="h-4 w-4" />
+              </label>
+              <label class="flex items-center justify-between border rounded-lg px-4 py-3">
+                <span class="text-gray-700">SMS updates</span>
+                <input id="prefSmsUpdates" type="checkbox" class="h-4 w-4" />
+              </label>
+              <label class="flex items-center justify-between border rounded-lg px-4 py-3">
+                <span class="text-gray-700">Order status notifications</span>
+                <input id="prefOrderUpdates" type="checkbox" class="h-4 w-4" />
+              </label>
+              <button type="submit" class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700">Save Preferences</button>
+            </form>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-12">
+      <div class="container mx-auto px-4 text-center">
+        <p class="text-gray-300">&copy; 2025 VibeThread. All rights reserved. This is a demo site.</p>
+      </div>
+    </footer>
+
+    <script src="js/products.js"></script>
+    <script src="js/datalayer.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/account.js"></script>
+    <script src="js/main.js"></script>
+    <script type="module">
+      import { app } from "./js/app.js";
+      app.init({ pageType: "account" });
+    </script>
+  </body>
+</html>

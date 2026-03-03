@@ -36,8 +36,7 @@ class ShoppingCart {
         productId,
         quantity,
         size,
-        color,
-        price: product.price,
+        color,I don't m
         addedAt: new Date().toISOString(),
       });
     }
