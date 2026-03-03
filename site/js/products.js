@@ -354,10 +354,21 @@ const ProductUtils = {
   },
 };
 
+function getPageSlug(pathname = window.location.pathname) {
+  const trimmedPath = String(pathname || "").replace(/\/+$/, "");
+  if (!trimmedPath || trimmedPath === "/") {
+    return "index";
+  }
+
+  const lastSegment = trimmedPath.split("/").filter(Boolean).pop() || "";
+  return lastSegment.replace(/\.[^/.]+$/, "").toLowerCase();
+}
+
 // Make products data available globally
 if (typeof module !== "undefined" && module.exports) {
-  module.exports = { products, ProductUtils };
+  module.exports = { products, ProductUtils, getPageSlug };
 } else {
   window.products = products;
   window.ProductUtils = ProductUtils;
+  window.getPageSlug = getPageSlug;
 }

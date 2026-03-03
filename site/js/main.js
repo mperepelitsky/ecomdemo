@@ -1,14 +1,13 @@
 // Main JavaScript for ClothingHub
 document.addEventListener("DOMContentLoaded", function () {
+  const pageSlug =
+    typeof window.getPageSlug === "function" ? window.getPageSlug() : "";
+
   // Initialize mobile menu
   initializeMobileMenu();
 
   // Load featured products on homepage
-  if (
-    window.location.pathname.includes("index.html") ||
-    window.location.pathname === "/" ||
-    window.location.pathname.endsWith("/")
-  ) {
+  if (pageSlug === "index") {
     loadFeaturedProducts();
   }
 

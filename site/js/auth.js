@@ -79,10 +79,9 @@ class AuthSystem {
     this.updateUIForCurrentUser();
     this.showMessage("You have been logged out successfully.", "success");
 
-    if (
-      window.location.pathname.includes("account.html") ||
-      window.location.pathname.includes("login.html")
-    ) {
+    const pageSlug =
+      typeof window.getPageSlug === "function" ? window.getPageSlug() : "";
+    if (pageSlug === "account" || pageSlug === "login") {
       setTimeout(() => {
         window.location.href = "index.html";
       }, 800);
