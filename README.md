@@ -36,6 +36,31 @@ aws dynamodb describe-table --table-name EcomdemoStaticSiteStack-CatalogCategori
 aws cloudformation describe-stacks --stack-name EcomdemoCatalogStack --query "Stacks[0].Outputs[?OutputKey=='CatalogApiBaseUrl'].OutputValue" --output text
 ```
 
+## Secret & PII Safety
+
+Do not commit:
+- API keys, access tokens, private keys, or `.env` files with real credentials
+- Real customer PII (email, full name, address, payment data)
+- Any secret material in code, docs, examples, or workflow files
+
+Local checks:
+```powershell
+./scripts/scan-secrets.ps1
+./scripts/scan-secrets.ps1 -IncludeHistory
+```
+
+CI enforcement:
+- `.github/workflows/secret-scan.yml` runs on pushes to `main` and on pull requests
+- It fails when high-confidence secret patterns are detected in tracked files or git history
+
+If a secret is leaked:
+1. Revoke/rotate the credential immediately at the provider.
+2. Remove the secret from current code and config.
+3. Rewrite git history to purge the secret from old commits.
+4. Force-push cleaned history and notify collaborators to re-clone if needed.
+5. Re-run `./scripts/scan-secrets.ps1 -IncludeHistory` to verify cleanup.
+
+
 Verification (after EcomdemoCatalogStack deploy):
 ```bash
 aws cloudformation describe-stacks --stack-name EcomdemoCatalogStack --query "Stacks[0].Outputs[?OutputKey=='CatalogApiBaseUrl'].OutputValue" --output text
