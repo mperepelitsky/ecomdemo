@@ -132,22 +132,15 @@ function updateAuthState() {
 
   if (userIcon) {
     if (currentUser) {
-      // User is logged in
       userIcon.innerHTML =
         '<i class="fas fa-user-circle text-lg text-blue-600"></i>';
       userIcon.title = `Logged in as ${currentUser.firstName}`;
-
-      // Update user icon click behavior
-      userIcon.onclick = function (e) {
-        e.preventDefault();
-        showUserMenu();
-      };
+      userIcon.href = "account.html";
+      userIcon.onclick = null;
     } else {
-      // User is not logged in
       userIcon.innerHTML = '<i class="fas fa-user text-lg"></i>';
       userIcon.title = "Login / Register";
-
-      // Reset click behavior
+      userIcon.href = "login.html";
       userIcon.onclick = null;
     }
   }
@@ -184,7 +177,7 @@ function showUserMenu() {
                 <div class="font-semibold">${currentUser.firstName} ${currentUser.lastName}</div>
                 <div class="text-xs text-gray-500">${currentUser.email}</div>
             </div>
-            <a href="login.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+            <a href="account.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                 <i class="fas fa-user mr-2"></i>My Account
             </a>
             <a href="#" onclick="showOrderHistory()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
@@ -224,12 +217,12 @@ function showUserMenu() {
 
 // Placeholder functions for user menu items
 function showOrderHistory() {
-  alert("Order History feature coming soon! This is a demo site.");
+  window.location.href = "account.html?tab=orders";
   document.getElementById("userDropdownMenu")?.remove();
 }
 
 function showWishlist() {
-  alert("Wishlist feature coming soon! This is a demo site.");
+  window.location.href = "account.html?tab=wishlist";
   document.getElementById("userDropdownMenu")?.remove();
 }
 

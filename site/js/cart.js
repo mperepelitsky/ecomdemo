@@ -22,7 +22,6 @@ class ShoppingCart {
     const product = ProductUtils.getProductById(productId);
     if (!product) return false;
 
-    // Check if item with same attributes already exists
     const existingItemIndex = this.items.findIndex(
       (item) =>
         item.productId === productId &&
@@ -31,16 +30,13 @@ class ShoppingCart {
     );
 
     if (existingItemIndex > -1) {
-      // Update quantity of existing item
       this.items[existingItemIndex].quantity += quantity;
     } else {
-      // Add new item
       this.items.push({
         productId,
         quantity,
         size,
-        color,
-        price: product.price,
+        color,I don't m
         addedAt: new Date().toISOString(),
       });
     }
@@ -49,7 +45,6 @@ class ShoppingCart {
     this.updateCartDisplay();
     this.showAddToCartFeedback(product.name);
 
-    // Track add to cart in DataLayer
     if (typeof dataLayerManager !== "undefined") {
       dataLayerManager.trackAddToCart(
         product,
@@ -65,7 +60,6 @@ class ShoppingCart {
 
   // Remove item from cart
   removeItem(productId, size = null, color = null) {
-    // Get product info before removing for DataLayer tracking
     const product = ProductUtils.getProductById(productId);
 
     this.items = this.items.filter(
@@ -76,10 +70,10 @@ class ShoppingCart {
           item.color === color
         )
     );
+
     this.saveCart();
     this.updateCartDisplay();
 
-    // Track remove from cart in DataLayer
     if (typeof dataLayerManager !== "undefined" && product) {
       dataLayerManager.trackRemoveFromCart(
         product,
@@ -129,10 +123,12 @@ class ShoppingCart {
     return this.items.reduce((count, item) => count + item.quantity, 0);
   }
 
-  // Update cart display
+  // Update all cart views
   updateCartDisplay() {
     this.updateCartCount();
     this.updateCartModal();
+    this.updateCartPage();
+    this.updateCheckoutPage();
   }
 
   // Update cart count badge
@@ -143,126 +139,201 @@ class ShoppingCart {
     }
   }
 
-  // Update cart modal content
+  // Build reusable cart rows markup
+  buildCartItemsMarkup(compact = false) {
+    return this.items
+      .map((item) => {
+        const product = ProductUtils.getProductById(item.productId);
+        if (!product) return "";
+
+        const sizeArg = JSON.stringify(item.size);
+        const colorArg = JSON.stringify(item.color);
+        const imageClass = compact ? "w-16 h-16" : "w-20 h-20";
+        const itemNameClass = compact ? "font-semibold text-sm" : "font-semibold";
+
+        return `
+          <div class="flex items-center space-x-4 py-4 border-b last:border-b-0">
+            <img src="${product.image}" alt="${product.name}" class="${imageClass} object-cover rounded">
+            <div class="flex-1">
+              <h4 class="${itemNameClass}">${product.name}</h4>
+              <p class="text-xs text-gray-500">
+                ${item.size ? `Size: ${item.size}` : ""}
+                ${item.color ? `Color: ${item.color}` : ""}
+              </p>
+              <div class="flex items-center space-x-2 mt-1">
+                <button onclick="cart.updateQuantity(${item.productId}, ${
+          item.quantity - 1
+        }, ${sizeArg}, ${colorArg})"
+                  class="w-7 h-7 bg-gray-200 rounded text-xs hover:bg-gray-300">-</button>
+                <span class="text-sm">${item.quantity}</span>
+                <button onclick="cart.updateQuantity(${item.productId}, ${
+          item.quantity + 1
+        }, ${sizeArg}, ${colorArg})"
+                  class="w-7 h-7 bg-gray-200 rounded text-xs hover:bg-gray-300">+</button>
+              </div>
+            </div>
+            <div class="text-right">
+              <p class="font-semibold">${ProductUtils.formatPrice(
+                item.price * item.quantity
+              )}</p>
+              <button onclick="cart.removeItem(${item.productId}, ${sizeArg}, ${colorArg})"
+                class="text-red-500 hover:text-red-700 text-xs">Remove</button>
+            </div>
+          </div>
+        `;
+      })
+      .join("");
+  }
+
+  // Keep modal support if modal exists in older pages
   updateCartModal() {
     const cartItemsElement = document.getElementById("cartItems");
     const cartTotalElement = document.getElementById("cartTotal");
-
     if (!cartItemsElement || !cartTotalElement) return;
 
     if (this.items.length === 0) {
       cartItemsElement.innerHTML = `
-                <div class="text-center py-8">
-                    <i class="fas fa-shopping-cart text-4xl text-gray-300 mb-4"></i>
-                    <p class="text-gray-500">Your cart is empty</p>
-                </div>
-            `;
+        <div class="text-center py-8">
+          <i class="fas fa-shopping-cart text-4xl text-gray-300 mb-4"></i>
+          <p class="text-gray-500">Your cart is empty</p>
+        </div>
+      `;
     } else {
-      cartItemsElement.innerHTML = this.items
-        .map((item) => {
-          const product = ProductUtils.getProductById(item.productId);
-          if (!product) return "";
-
-          return `
-                    <div class="flex items-center space-x-4 py-4 border-b last:border-b-0">
-                        <img src="${product.image}" alt="${
-            product.name
-          }" class="w-16 h-16 object-cover rounded">
-                        <div class="flex-1">
-                            <h4 class="font-semibold text-sm">${
-                              product.name
-                            }</h4>
-                            <p class="text-xs text-gray-500">
-                                ${item.size ? `Size: ${item.size}` : ""} 
-                                ${item.color ? `Color: ${item.color}` : ""}
-                            </p>
-                            <div class="flex items-center space-x-2 mt-1">
-                                <button onclick="cart.updateQuantity(${
-                                  item.productId
-                                }, ${item.quantity - 1}, '${item.size}', '${
-            item.color
-          }')" 
-                                        class="w-6 h-6 bg-gray-200 rounded text-xs hover:bg-gray-300">-</button>
-                                <span class="text-sm">${item.quantity}</span>
-                                <button onclick="cart.updateQuantity(${
-                                  item.productId
-                                }, ${item.quantity + 1}, '${item.size}', '${
-            item.color
-          }')" 
-                                        class="w-6 h-6 bg-gray-200 rounded text-xs hover:bg-gray-300">+</button>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <p class="font-semibold">${ProductUtils.formatPrice(
-                              item.price * item.quantity
-                            )}</p>
-                            <button onclick="cart.removeItem(${
-                              item.productId
-                            }, '${item.size}', '${item.color}')" 
-                                    class="text-red-500 hover:text-red-700 text-xs">Remove</button>
-                        </div>
-                    </div>
-                `;
-        })
-        .join("");
+      cartItemsElement.innerHTML = this.buildCartItemsMarkup(true);
     }
 
     cartTotalElement.textContent = this.getTotal().toFixed(2);
   }
 
+  // Render full cart page content
+  updateCartPage() {
+    const cartPageItems = document.getElementById("cartPageItems");
+    if (!cartPageItems) return;
+
+    const subtotal = this.getTotal();
+    const shipping = subtotal >= 50 || subtotal === 0 ? 0 : 7.99;
+    const tax = subtotal * 0.08;
+    const total = subtotal + shipping + tax;
+
+    if (this.items.length === 0) {
+      cartPageItems.innerHTML = `
+        <div class="text-center py-12 bg-white rounded-lg border border-gray-200">
+          <i class="fas fa-shopping-cart text-5xl text-gray-300 mb-4"></i>
+          <h2 class="text-2xl font-semibold text-gray-700 mb-2">Your cart is empty</h2>
+          <p class="text-gray-500 mb-6">Looks like you have not added anything yet.</p>
+          <a href="categories.html" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300">
+            Continue Shopping
+          </a>
+        </div>
+      `;
+    } else {
+      cartPageItems.innerHTML = this.buildCartItemsMarkup(false);
+    }
+
+    const setText = (id, value) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    };
+
+    setText("cartPageSubtotal", ProductUtils.formatPrice(subtotal));
+    setText("cartPageShipping", ProductUtils.formatPrice(shipping));
+    setText("cartPageTax", ProductUtils.formatPrice(tax));
+    setText("cartPageTotal", ProductUtils.formatPrice(total));
+
+    const checkoutBtn = document.getElementById("goToCheckout");
+    if (checkoutBtn) {
+      checkoutBtn.disabled = this.items.length === 0;
+      checkoutBtn.classList.toggle("opacity-50", this.items.length === 0);
+      checkoutBtn.classList.toggle("cursor-not-allowed", this.items.length === 0);
+    }
+  }
+
+  // Render checkout page content
+  updateCheckoutPage() {
+    const checkoutItems = document.getElementById("checkoutItems");
+    if (!checkoutItems) return;
+
+    const subtotal = this.getTotal();
+    const shipping = subtotal >= 50 || subtotal === 0 ? 0 : 7.99;
+    const tax = subtotal * 0.08;
+    const total = subtotal + shipping + tax;
+
+    if (this.items.length === 0) {
+      checkoutItems.innerHTML = `
+        <div class="text-center py-8">
+          <p class="text-gray-500">Your cart is empty.</p>
+          <a href="cart.html" class="text-blue-600 hover:text-blue-800">Return to cart</a>
+        </div>
+      `;
+    } else {
+      checkoutItems.innerHTML = this.buildCartItemsMarkup(true);
+    }
+
+    const setText = (id, value) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    };
+
+    setText("checkoutSubtotal", ProductUtils.formatPrice(subtotal));
+    setText("checkoutShipping", ProductUtils.formatPrice(shipping));
+    setText("checkoutTax", ProductUtils.formatPrice(tax));
+    setText("checkoutTotal", ProductUtils.formatPrice(total));
+  }
+
   // Show feedback when item is added to cart
   showAddToCartFeedback(productName) {
-    // Create temporary notification
     const notification = document.createElement("div");
     notification.className =
       "fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transform translate-x-full transition-transform duration-300";
     notification.innerHTML = `
-            <div class="flex items-center space-x-2">
-                <i class="fas fa-check-circle"></i>
-                <span>${productName} added to cart!</span>
-            </div>
-        `;
+      <div class="flex items-center space-x-2">
+        <i class="fas fa-check-circle"></i>
+        <span>${productName} added to cart!</span>
+      </div>
+    `;
 
     document.body.appendChild(notification);
 
-    // Slide in
     setTimeout(() => {
       notification.classList.remove("translate-x-full");
     }, 100);
 
-    // Slide out and remove
     setTimeout(() => {
       notification.classList.add("translate-x-full");
       setTimeout(() => {
-        document.body.removeChild(notification);
+        if (notification.parentNode) {
+          document.body.removeChild(notification);
+        }
       }, 300);
     }, 3000);
   }
 
   // Initialize event listeners
   initializeEventListeners() {
-    // Cart icon click
     document.addEventListener("click", (e) => {
       if (e.target.closest("#cartIcon")) {
-        this.toggleCartModal();
+        window.location.href = "cart.html";
       }
 
       if (e.target.closest("#closeCart")) {
         this.hideCartModal();
       }
 
-      if (e.target.closest("#clearCart")) {
+      if (e.target.closest("#clearCart") || e.target.closest("#clearCartPage")) {
         if (confirm("Are you sure you want to clear your cart?")) {
           this.clearCart();
         }
       }
 
-      if (e.target.closest("#checkout")) {
-        cart.checkout();
+      if (e.target.closest("#checkout") || e.target.closest("#goToCheckout")) {
+        this.beginCheckout();
+      }
+
+      if (e.target.closest("#facePayBtn")) {
+        this.checkout();
       }
     });
 
-    // Close modal when clicking outside
     document.addEventListener("click", (e) => {
       const modal = document.getElementById("cartModal");
       if (modal && e.target === modal) {
@@ -271,7 +342,7 @@ class ShoppingCart {
     });
   }
 
-  // Toggle cart modal
+  // Keep modal methods for backward compatibility
   toggleCartModal() {
     const modal = document.getElementById("cartModal");
     if (modal) {
@@ -283,21 +354,18 @@ class ShoppingCart {
     }
   }
 
-  // Show cart modal
   showCartModal() {
     const modal = document.getElementById("cartModal");
     if (modal) {
       modal.classList.remove("hidden");
       document.body.style.overflow = "hidden";
 
-      // Track view cart in DataLayer
       if (typeof dataLayerManager !== "undefined") {
         dataLayerManager.trackViewCart(this.items, this.getTotal());
       }
     }
   }
 
-  // Hide cart modal
   hideCartModal() {
     const modal = document.getElementById("cartModal");
     if (modal) {
@@ -306,14 +374,35 @@ class ShoppingCart {
     }
   }
 
-  // Simulate checkout process
+  // Move from cart to checkout page
+  beginCheckout() {
+    if (this.items.length === 0) {
+      alert("Your cart is empty!");
+      return;
+    }
+
+    const currentUser = AuthSystem.getCurrentUser();
+    if (!currentUser) {
+      alert("Please log in to continue to checkout.");
+      window.location.href = "login.html";
+      return;
+    }
+
+    const total = this.getTotal();
+    if (typeof dataLayerManager !== "undefined") {
+      dataLayerManager.trackBeginCheckout(this.items, total);
+    }
+
+    window.location.href = "checkout.html";
+  }
+
+  // Run automatic Face Payment and complete order
   checkout() {
     if (this.items.length === 0) {
       alert("Your cart is empty!");
       return;
     }
 
-    // Check if user is logged in
     const currentUser = AuthSystem.getCurrentUser();
     if (!currentUser) {
       alert("Please log in to complete your purchase.");
@@ -321,64 +410,84 @@ class ShoppingCart {
       return;
     }
 
-    // Track begin checkout event
-    const total = this.getTotal();
-    if (typeof dataLayerManager !== "undefined") {
-      dataLayerManager.trackBeginCheckout(this.items, total);
+    const facePayBtn = document.getElementById("facePayBtn");
+    const fallbackBtn = document.getElementById("checkout");
+    const actionBtn = facePayBtn || fallbackBtn;
+    const originalText = actionBtn ? actionBtn.innerHTML : "";
+
+    if (actionBtn) {
+      actionBtn.innerHTML =
+        '<i class="fas fa-spinner fa-spin mr-2"></i>Scanning Face ID...';
+      actionBtn.disabled = true;
     }
 
-    // Simulate payment process
+    const total = this.getTotal();
     const itemCount = this.getItemCount();
 
-    // Show loading state
-    const checkoutBtn = document.getElementById("checkout");
-    const originalText = checkoutBtn.innerHTML;
-    checkoutBtn.innerHTML =
-      '<i class="fas fa-spinner fa-spin mr-2"></i>Processing...';
-    checkoutBtn.disabled = true;
-
-    // Simulate API call delay
     setTimeout(() => {
-      // Simulate successful payment
-      alert(
-        `Payment successful! Total: ${ProductUtils.formatPrice(
-          total
-        )} for ${itemCount} item(s). Order confirmation will be sent to ${
-          currentUser.email
-        }.`
-      );
+      const order = this.createOrderRecord(currentUser, total);
+      this.persistOrderForUser(currentUser, order);
 
-      // After successful payment , before clearing cart save order
-      const order = {
-        id: `ORDER_${Date.now()}`,
-        items: [...this.items],
-        total: Number(total),
-        date: new Date().toISOString(),
-      };
-      let users = JSON.parse(localStorage.getItem("vibeThreadUsers")) || [];
-      let userIndex = users.findIndex((u) => u.email === currentUser.email);
-      if (userIndex > -1) {
-        users[userIndex].orders = users[userIndex].orders || [];
-        users[userIndex].orders.push(order);
-        localStorage.setItem("vibeThreadUsers", JSON.stringify(users));
-        // Also update the current user in vibeThreadUser
-        const updatedUser = { ...users[userIndex] };
-        localStorage.setItem("vibeThreadUser", JSON.stringify(updatedUser));
-      }
-
-      // DataLayer: Track purchase (demo only, no real payment)
       if (typeof dataLayerManager !== "undefined") {
         dataLayerManager.trackPurchase(order.items, order.total, order.id);
       }
 
-      // Clear cart after successful checkout
-      this.clearCart();
-      this.hideCartModal();
+      localStorage.setItem("vibeThreadLastOrder", JSON.stringify(order));
 
-      // Reset button
-      checkoutBtn.innerHTML = originalText;
-      checkoutBtn.disabled = false;
+      this.clearCart();
+
+      if (actionBtn) {
+        actionBtn.innerHTML = originalText;
+        actionBtn.disabled = false;
+      }
+
+      alert(
+        `Face Payment approved. ${itemCount} item(s) purchased for ${ProductUtils.formatPrice(
+          total
+        )}.`
+      );
+
+      window.location.href = `thank-you.html?order=${encodeURIComponent(
+        order.id
+      )}`;
     }, 2000);
+  }
+
+  // Generic 4-digit order number for demo usage
+  generateOrderId() {
+    return `${Math.floor(1000 + Math.random() * 9000)}`;
+  }
+
+  createOrderRecord(currentUser, total) {
+    return {
+      id: this.generateOrderId(),
+      items: [...this.items],
+      total: Number(total),
+      date: new Date().toISOString(),
+      customer: {
+        id: currentUser.id,
+        firstName: currentUser.firstName,
+        lastName: currentUser.lastName,
+        email: currentUser.email,
+      },
+      payment: {
+        method: "face_payment_auto",
+        status: "approved",
+      },
+    };
+  }
+
+  persistOrderForUser(currentUser, order) {
+    let users = JSON.parse(localStorage.getItem("vibeThreadUsers")) || [];
+    const userIndex = users.findIndex((u) => u.email === currentUser.email);
+    if (userIndex > -1) {
+      users[userIndex].orders = users[userIndex].orders || [];
+      users[userIndex].orders.push(order);
+      localStorage.setItem("vibeThreadUsers", JSON.stringify(users));
+
+      const updatedUser = { ...users[userIndex] };
+      localStorage.setItem("vibeThreadUser", JSON.stringify(updatedUser));
+    }
   }
 
   // Get cart items with product details

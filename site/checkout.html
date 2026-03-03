@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout - VibeThread</title>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.c360a.salesforce.com/beacon/c360a/ef0e581a-df74-4390-804c-ac8b59ca6188/scripts/c360a.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body class="bg-gray-50">
+    <header class="bg-white shadow-md sticky top-0 z-50">
+      <nav class="container mx-auto px-4">
+        <div class="flex items-center justify-between h-16">
+          <div class="flex-shrink-0 flex items-center gap-2">
+            <img
+              src="Assets/VibeThread Logo.jpg"
+              alt="VibeThread logo"
+              class="h-8 w-8 object-contain rounded"
+            />
+            <a href="index.html" class="text-2xl font-bold text-gray-800">VibeThread</a>
+          </div>
+          <div class="flex items-center space-x-4">
+            <a href="login.html" class="text-gray-700 hover:text-blue-600" id="userIcon">
+              <i class="fas fa-user text-lg"></i>
+            </a>
+            <button class="relative text-gray-700 hover:text-blue-600" id="cartIcon">
+              <i class="fas fa-shopping-cart text-lg"></i>
+              <span
+                class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
+                id="cartCount"
+                >0</span
+              >
+            </button>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <section class="bg-gradient-to-r from-blue-600 to-purple-700 text-white py-10">
+      <div class="container mx-auto px-4">
+        <h1 class="text-3xl md:text-4xl font-bold mb-2">Checkout</h1>
+        <p class="text-blue-100">Automatic checkout powered by Face Payment (demo flow).</p>
+      </div>
+    </section>
+
+    <main class="container mx-auto px-4 py-10">
+      <div class="grid lg:grid-cols-3 gap-8">
+        <section class="lg:col-span-2 space-y-6">
+          <div class="bg-white rounded-lg shadow-sm p-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-2">Customer</h2>
+            <p class="text-gray-600">Signed in as:</p>
+            <p class="text-gray-900 font-semibold" id="checkoutEmail">-</p>
+          </div>
+
+          <div class="bg-white rounded-lg shadow-sm p-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Order Items</h2>
+            <div id="checkoutItems"></div>
+          </div>
+
+          <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
+            <h2 class="text-xl font-semibold text-blue-900 mb-2">Face Payment</h2>
+            <p class="text-blue-800 text-sm mb-4">
+              This demo uses automatic Face Payment. No card details are collected.
+            </p>
+            <button
+              id="facePayBtn"
+              class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition duration-300 font-semibold"
+            >
+              <i class="fas fa-face-smile mr-2"></i>Pay Automatically with Face Payment
+            </button>
+            <a href="cart.html" class="mt-3 inline-block text-blue-700 hover:text-blue-900 text-sm">
+              Back to Cart
+            </a>
+          </div>
+        </section>
+
+        <aside class="bg-white rounded-lg shadow-sm p-6 h-fit">
+          <h2 class="text-xl font-semibold text-gray-800 mb-4">Payment Summary</h2>
+          <div class="space-y-3 text-sm">
+            <div class="flex justify-between text-gray-700">
+              <span>Subtotal</span>
+              <span id="checkoutSubtotal">$0.00</span>
+            </div>
+            <div class="flex justify-between text-gray-700">
+              <span>Shipping</span>
+              <span id="checkoutShipping">$0.00</span>
+            </div>
+            <div class="flex justify-between text-gray-700">
+              <span>Estimated Tax</span>
+              <span id="checkoutTax">$0.00</span>
+            </div>
+            <div class="border-t pt-3 flex justify-between font-semibold text-lg text-gray-800">
+              <span>Total</span>
+              <span id="checkoutTotal">$0.00</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-12">
+      <div class="container mx-auto px-4 text-center">
+        <p class="text-gray-300">&copy; 2025 VibeThread. All rights reserved. This is a demo site.</p>
+      </div>
+    </footer>
+
+    <script src="js/products.js"></script>
+    <script src="js/datalayer.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/checkout.js"></script>
+    <script src="js/main.js"></script>
+    <script type="module">
+      import { app } from "./js/app.js";
+      app.init({ pageType: "checkout" });
+    </script>
+  </body>
+</html>
