@@ -12,6 +12,81 @@ class DataLayerManager {
     console.log("DataLayer push:", data);
   }
 
+  getCurrentUser() {
+    if (typeof AuthSystem !== "undefined" && typeof AuthSystem.getCurrentUser === "function") {
+      return AuthSystem.getCurrentUser();
+    }
+    return null;
+  }
+
+  getUserProperties(user) {
+    if (!user) {
+      return {
+        is_logged_in: false,
+      };
+    }
+
+    return {
+      first_name: user.firstName || null,
+      last_name: user.lastName || null,
+      email: user.email || null,
+      member_since: user.memberSince || null,
+      is_logged_in: true,
+    };
+  }
+
+  getCustomerData(user) {
+    if (!user) return null;
+
+    return {
+      id: user.id || null,
+      first_name: user.firstName || null,
+      last_name: user.lastName || null,
+      email: user.email || null,
+      member_since: user.memberSince || null,
+    };
+  }
+
+  formatMoney(value) {
+    const numericValue = Number(value);
+    if (!Number.isFinite(numericValue)) return 0;
+    return Number(numericValue.toFixed(2));
+  }
+
+  buildEcommerceItems(cartItems) {
+    return cartItems
+      .map((item) => {
+        const product = ProductUtils.getProductById(item.productId);
+        if (!product) return null;
+
+        const unitPrice = this.getItemUnitPrice(item, product);
+        return {
+          item_id: item.productId.toString(),
+          item_name: product.name,
+          item_category: this.getCategoryName(product.category),
+          item_variant: this.getVariant(item.size, item.color),
+          quantity: item.quantity,
+          price: this.formatMoney(unitPrice),
+        };
+      })
+      .filter(Boolean);
+  }
+
+  getCartSummary(cartItems, cartValue) {
+    return {
+      cart_total_value: this.formatMoney(cartValue),
+      cart_total_items: cartItems.reduce((count, item) => count + item.quantity, 0),
+    };
+  }
+
+  buildUserContext(user) {
+    return {
+      user_id: user ? user.id : null,
+      user_properties: this.getUserProperties(user),
+      customer: this.getCustomerData(user),
+    };
+  }
+
   // Track user login
   trackUserLogin(user) {
     this.push({
@@ -55,7 +130,7 @@ class DataLayerManager {
       event: "add_to_cart",
       ecommerce: {
         currency: "USD",
-        value: product.price * quantity,
+        value: this.formatMoney(product.price * quantity),
         items: [
           {
             item_id: product.id.toString(),
@@ -63,11 +138,11 @@ class DataLayerManager {
             item_category: this.getCategoryName(product.category),
             item_variant: this.getVariant(size, color),
             quantity: quantity,
-            price: product.price,
+            price: this.formatMoney(product.price),
           },
         ],
       },
-      cart_total_value: cartValue,
+      cart_total_value: this.formatMoney(cartValue),
       cart_total_items: this.getCartItemCount(),
     });
   }
@@ -78,7 +153,7 @@ class DataLayerManager {
       event: "remove_from_cart",
       ecommerce: {
         currency: "USD",
-        value: product.price,
+        value: this.formatMoney(product.price),
         items: [
           {
             item_id: product.id.toString(),
@@ -86,90 +161,133 @@ class DataLayerManager {
             item_category: this.getCategoryName(product.category),
             item_variant: this.getVariant(size, color),
             quantity: 1,
-            price: product.price,
+            price: this.formatMoney(product.price),
           },
         ],
       },
-      cart_total_value: cartValue,
+      cart_total_value: this.formatMoney(cartValue),
       cart_total_items: this.getCartItemCount(),
     });
   }
 
   // Track view cart
   trackViewCart(cartItems, cartValue) {
-    const items = cartItems.map((item) => {
-      const product = ProductUtils.getProductById(item.productId);
-      const unitPrice = this.getItemUnitPrice(item, product);
-      return {
-        item_id: item.productId.toString(),
-        item_name: product.name,
-        item_category: this.getCategoryName(product.category),
-        item_variant: this.getVariant(item.size, item.color),
-        quantity: item.quantity,
-        price: unitPrice,
-      };
-    });
+    const user = this.getCurrentUser();
+    const items = this.buildEcommerceItems(cartItems);
+    const cartSummary = this.getCartSummary(cartItems, cartValue);
 
     this.push({
       event: "view_cart",
       ecommerce: {
         currency: "USD",
-        value: cartValue,
+        value: this.formatMoney(cartValue),
         items: items,
       },
-      cart_total_value: cartValue,
-      cart_total_items: this.getCartItemCount(),
+      ...cartSummary,
+      ...this.buildUserContext(user),
+    });
+  }
+
+  trackCartPageView(cartItems, cartValue) {
+    const user = this.getCurrentUser();
+    const items = this.buildEcommerceItems(cartItems);
+    const cartSummary = this.getCartSummary(cartItems, cartValue);
+
+    this.push({
+      event: "cart_page_view",
+      page_type: "cart",
+      ecommerce: {
+        currency: "USD",
+        value: this.formatMoney(cartValue),
+        items: items,
+      },
+      ...cartSummary,
+      ...this.buildUserContext(user),
     });
   }
 
   // Track begin checkout
   trackBeginCheckout(cartItems, cartValue) {
-    const items = cartItems.map((item) => {
-      const product = ProductUtils.getProductById(item.productId);
-      const unitPrice = this.getItemUnitPrice(item, product);
-      return {
-        item_id: item.productId.toString(),
-        item_name: product.name,
-        item_category: this.getCategoryName(product.category),
-        item_variant: this.getVariant(item.size, item.color),
-        quantity: item.quantity,
-        price: unitPrice,
-      };
-    });
+    const user = this.getCurrentUser();
+    const items = this.buildEcommerceItems(cartItems);
+    const cartSummary = this.getCartSummary(cartItems, cartValue);
 
     this.push({
       event: "begin_checkout",
       ecommerce: {
         currency: "USD",
-        value: cartValue,
+        value: this.formatMoney(cartValue),
         items: items,
       },
-      cart_total_value: cartValue,
-      cart_total_items: this.getCartItemCount(),
+      ...cartSummary,
+      ...this.buildUserContext(user),
+    });
+  }
+
+  trackCheckoutPageView(cartItems, cartValue) {
+    const user = this.getCurrentUser();
+    const items = this.buildEcommerceItems(cartItems);
+    const cartSummary = this.getCartSummary(cartItems, cartValue);
+
+    this.push({
+      event: "checkout_page_view",
+      page_type: "checkout",
+      ecommerce: {
+        currency: "USD",
+        value: this.formatMoney(cartValue),
+        items: items,
+      },
+      ...cartSummary,
+      ...this.buildUserContext(user),
     });
   }
 
   // Track purchase completion
-  trackPurchase(cartItems, cartValue, transactionId) {
-    const items = cartItems.map((item) => {
-      const product = ProductUtils.getProductById(item.productId);
-      const unitPrice = this.getItemUnitPrice(item, product);
-      return {
-        item_id: item.productId.toString(),
-        item_name: product.name,
-        item_category: this.getCategoryName(product.category),
-        item_variant: this.getVariant(item.size, item.color),
-        quantity: item.quantity,
-        price: unitPrice,
-      };
-    });
+  trackPurchase(order) {
+    const items = this.buildEcommerceItems(order.items || []);
+    const orderValue = this.formatMoney(order.total);
+    const cartSummary = this.getCartSummary(order.items || [], orderValue);
 
     this.push({
       event: "purchase",
       ecommerce: {
-        transaction_id: transactionId,
+        transaction_id: order.id,
         currency: "USD",
-        value: cartValue,
+        value: orderValue,
+        items: items,
+      },
+      ...cartSummary,
+      ...this.buildUserContext(order.customer || null),
+      order: {
+        order_id: order.id,
+        order_date: order.date || null,
+        payment_method: order.payment?.method || null,
+        payment_status: order.payment?.status || null,
+        currency: "USD",
+        value: orderValue,
+        item_count: cartSummary.cart_total_items,
+        items: items,
+      },
+    });
+  }
+
+  trackOrderConfirmationView(order) {
+    const items = this.buildEcommerceItems(order.items || []);
+    const orderValue = this.formatMoney(order.total);
+    const cartSummary = this.getCartSummary(order.items || [], orderValue);
+
+    this.push({
+      event: "order_confirmation_view",
+      page_type: "purchase",
+      ...this.buildUserContext(order.customer || null),
+      order: {
+        order_id: order.id,
+        order_date: order.date || null,
+        payment_method: order.payment?.method || null,
+        payment_status: order.payment?.status || null,
+        currency: "USD",
+        value: orderValue,
+        item_count: cartSummary.cart_total_items,
         items: items,
       },
     });
@@ -184,7 +302,7 @@ class DataLayerManager {
         product_id: product.id.toString(),
         product_name: product.name,
         product_category: this.getCategoryName(product.category),
-        price: product.price,
+        price: this.formatMoney(product.price),
       },
     });
   }
@@ -195,7 +313,7 @@ class DataLayerManager {
       item_id: product.id.toString(),
       item_name: product.name,
       item_category: this.getCategoryName(product.category),
-      price: product.price,
+      price: this.formatMoney(product.price),
       index: index + 1, // Position of the item in the list
     }));
 
@@ -226,7 +344,7 @@ class DataLayerManager {
         last_name: user.lastName,
         email: user.email,
         member_since: user.memberSince,
-        customer_lifetime_value: 0, // Could be calculated based on order history
+        customer_lifetime_value: this.formatMoney(0), // Could be calculated based on order history
         is_logged_in: true,
       },
     });
@@ -290,7 +408,7 @@ class DataLayerManager {
 
     return {
       items: cart.items,
-      value: cart.getTotal(),
+      value: this.formatMoney(cart.getTotal()),
       item_count: cart.getItemCount(),
     };
   }

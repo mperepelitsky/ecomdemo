@@ -62,43 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .join("");
   }
 
-  const orderItemsForTracking = savedOrder.items.map((item) => {
-    const product = ProductUtils.getProductById(item.productId);
-    const unitPrice =
-      typeof item.unitPrice === "number"
-        ? item.unitPrice
-        : typeof item.price === "number"
-          ? item.price
-          : product
-            ? product.price
-            : 0;
-    return {
-      item_id: String(item.productId),
-      item_name: product ? product.name : `Item ${item.productId}`,
-      quantity: item.quantity,
-      price: unitPrice,
-      item_variant: [item.size, item.color].filter(Boolean).join(" / ") || null,
-    };
-  });
-
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({
-    event: "order_confirmation_view",
-    customer: {
-      id: savedOrder.customer?.id || null,
-      first_name: savedOrder.customer?.firstName || null,
-      last_name: savedOrder.customer?.lastName || null,
-      email: savedOrder.customer?.email || null,
-    },
-    order: {
-      order_id: savedOrder.id,
-      order_date: savedOrder.date,
-      payment_method: savedOrder.payment?.method || "face_payment_auto",
-      payment_status: savedOrder.payment?.status || "approved",
-      currency: "USD",
-      value: savedOrder.total,
-      item_count: itemCount,
-      items: orderItemsForTracking,
-    },
-  });
+  if (typeof dataLayerManager !== "undefined") {
+    dataLayerManager.trackOrderConfirmationView(savedOrder);
+  }
 });

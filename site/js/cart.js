@@ -2,6 +2,8 @@
 class ShoppingCart {
   constructor() {
     this.items = this.loadCart();
+    this.hasTrackedCartPageView = false;
+    this.hasTrackedCheckoutPageView = false;
     this.initializeEventListeners();
     this.updateCartDisplay();
   }
@@ -258,6 +260,11 @@ class ShoppingCart {
       checkoutBtn.classList.toggle("opacity-50", this.items.length === 0);
       checkoutBtn.classList.toggle("cursor-not-allowed", this.items.length === 0);
     }
+
+    if (!this.hasTrackedCartPageView && typeof dataLayerManager !== "undefined") {
+      dataLayerManager.trackCartPageView(this.items, subtotal);
+      this.hasTrackedCartPageView = true;
+    }
   }
 
   // Render checkout page content
@@ -290,6 +297,11 @@ class ShoppingCart {
     setText("checkoutShipping", ProductUtils.formatPrice(shipping));
     setText("checkoutTax", ProductUtils.formatPrice(tax));
     setText("checkoutTotal", ProductUtils.formatPrice(total));
+
+    if (!this.hasTrackedCheckoutPageView && typeof dataLayerManager !== "undefined") {
+      dataLayerManager.trackCheckoutPageView(this.items, subtotal);
+      this.hasTrackedCheckoutPageView = true;
+    }
   }
 
   // Show feedback when item is added to cart
@@ -441,7 +453,7 @@ class ShoppingCart {
       this.persistOrderForUser(currentUser, order);
 
       if (typeof dataLayerManager !== "undefined") {
-        dataLayerManager.trackPurchase(order.items, order.total, order.id);
+        dataLayerManager.trackPurchase(order);
       }
 
       localStorage.setItem("vibeThreadLastOrder", JSON.stringify(order));
@@ -474,7 +486,7 @@ class ShoppingCart {
     return {
       id: this.generateOrderId(),
       items: [...this.items],
-      total: Number(total),
+      total: Number(Number(total).toFixed(2)),
       date: new Date().toISOString(),
       customer: {
         id: currentUser.id,
