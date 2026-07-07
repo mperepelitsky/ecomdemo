@@ -293,16 +293,21 @@ class DataLayerManager {
     });
   }
 
-  // Track product view (flat structure)
+  // Track product view
   trackViewItem(product) {
     this.push({
       event: "view_item",
       ecommerce: {
         currency: "USD",
-        product_id: product.id.toString(),
-        product_name: product.name,
-        product_category: this.getCategoryName(product.category),
-        price: this.formatMoney(product.price),
+        value: this.formatMoney(product.price),
+        items: [
+          {
+            item_id: product.id.toString(),
+            item_name: product.name,
+            item_category: this.getCategoryName(product.category),
+            price: this.formatMoney(product.price),
+          },
+        ],
       },
     });
   }
