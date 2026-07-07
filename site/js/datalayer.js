@@ -67,6 +67,7 @@ class DataLayerManager {
           item_variant: this.getVariant(item.size, item.color),
           quantity: item.quantity,
           price: this.formatMoney(unitPrice),
+          inventory: 100,
         };
       })
       .filter(Boolean);
@@ -139,6 +140,7 @@ class DataLayerManager {
             item_variant: this.getVariant(size, color),
             quantity: quantity,
             price: this.formatMoney(product.price),
+            inventory: 100,
           },
         ],
       },
@@ -162,6 +164,7 @@ class DataLayerManager {
             item_variant: this.getVariant(size, color),
             quantity: 1,
             price: this.formatMoney(product.price),
+            inventory: 100,
           },
         ],
       },
@@ -306,6 +309,7 @@ class DataLayerManager {
             item_name: product.name,
             item_category: this.getCategoryName(product.category),
             price: this.formatMoney(product.price),
+            inventory: 100,
           },
         ],
       },
@@ -320,6 +324,7 @@ class DataLayerManager {
       item_category: this.getCategoryName(product.category),
       price: this.formatMoney(product.price),
       index: index + 1, // Position of the item in the list
+      inventory: 100,
     }));
 
     this.push({
