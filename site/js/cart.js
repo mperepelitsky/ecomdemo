@@ -150,7 +150,7 @@ class ShoppingCart {
   }
 
   // Build reusable cart rows markup
-  buildCartItemsMarkup(compact = false) {
+  buildCartItemsMarkup(compact = false, editable = true) {
     return this.items
       .map((item) => {
         const product = ProductUtils.getProductById(item.productId);
@@ -165,6 +165,27 @@ class ShoppingCart {
             ? item.unitPrice
             : product.price;
 
+        const quantityMarkup = editable
+          ? `
+              <div class="flex items-center space-x-2 mt-1">
+                <button onclick="cart.updateQuantity(${item.productId}, ${
+              item.quantity - 1
+            }, ${sizeArg}, ${colorArg})"
+                  class="w-7 h-7 bg-gray-200 rounded text-xs hover:bg-gray-300">-</button>
+                <span class="text-sm">${item.quantity}</span>
+                <button onclick="cart.updateQuantity(${item.productId}, ${
+              item.quantity + 1
+            }, ${sizeArg}, ${colorArg})"
+                  class="w-7 h-7 bg-gray-200 rounded text-xs hover:bg-gray-300">+</button>
+              </div>
+            `
+          : `<p class="text-sm text-gray-600 mt-1">Qty: ${item.quantity}</p>`;
+
+        const removeMarkup = editable
+          ? `<button onclick="cart.removeItem(${item.productId}, ${sizeArg}, ${colorArg})"
+                class="text-red-500 hover:text-red-700 text-xs">Remove</button>`
+          : "";
+
         return `
           <div class="flex items-center space-x-4 py-4 border-b last:border-b-0">
             <img src="${product.image}" alt="${product.name}" class="${imageClass} object-cover rounded">
@@ -174,24 +195,13 @@ class ShoppingCart {
                 ${item.size ? `Size: ${item.size}` : ""}
                 ${item.color ? `Color: ${item.color}` : ""}
               </p>
-              <div class="flex items-center space-x-2 mt-1">
-                <button onclick="cart.updateQuantity(${item.productId}, ${
-          item.quantity - 1
-        }, ${sizeArg}, ${colorArg})"
-                  class="w-7 h-7 bg-gray-200 rounded text-xs hover:bg-gray-300">-</button>
-                <span class="text-sm">${item.quantity}</span>
-                <button onclick="cart.updateQuantity(${item.productId}, ${
-          item.quantity + 1
-        }, ${sizeArg}, ${colorArg})"
-                  class="w-7 h-7 bg-gray-200 rounded text-xs hover:bg-gray-300">+</button>
-              </div>
+              ${quantityMarkup}
             </div>
             <div class="text-right">
               <p class="font-semibold">${ProductUtils.formatPrice(
                 unitPrice * item.quantity
               )}</p>
-              <button onclick="cart.removeItem(${item.productId}, ${sizeArg}, ${colorArg})"
-                class="text-red-500 hover:text-red-700 text-xs">Remove</button>
+              ${removeMarkup}
             </div>
           </div>
         `;
@@ -285,7 +295,7 @@ class ShoppingCart {
         </div>
       `;
     } else {
-      checkoutItems.innerHTML = this.buildCartItemsMarkup(true);
+      checkoutItems.innerHTML = this.buildCartItemsMarkup(true, false);
     }
 
     const setText = (id, value) => {
